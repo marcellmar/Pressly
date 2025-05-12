@@ -5,6 +5,18 @@
  * In a production environment, this would interact with a backend API.
  */
 
+// Constants
+const LOCAL_STORAGE_TOKEN_KEY = 'pressly_auth_token';
+const LOCAL_STORAGE_USER_KEY = 'pressly_current_user';
+
+/**
+ * Save the user database to localStorage
+ * This simulates a database in a real application
+ */
+const saveUsers = () => {
+  localStorage.setItem('pressly_users', JSON.stringify(users));
+};
+
 // Mock user database (this would be on the server in a real app)
 let users = JSON.parse(localStorage.getItem('pressly_users') || '[]');
 
@@ -50,18 +62,6 @@ if (users.length === 0) {
   ];
   saveUsers();
 }
-
-// Constants
-const LOCAL_STORAGE_TOKEN_KEY = 'pressly_auth_token';
-const LOCAL_STORAGE_USER_KEY = 'pressly_current_user';
-
-/**
- * Save the user database to localStorage
- * This simulates a database in a real application
- */
-const saveUsers = () => {
-  localStorage.setItem('pressly_users', JSON.stringify(users));
-};
 
 /**
  * Generate a unique ID
