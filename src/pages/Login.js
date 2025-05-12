@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../services/auth/AuthContext';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '../components/ui/card';
@@ -8,7 +8,11 @@ import { AlertCircle, User, Lock, Printer } from 'lucide-react';
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login, currentUser, error, clearError, isAuthenticated } = useAuth();
+
+  // Get the redirect path from location state, or default to dashboard
+  const from = location.state?.from?.pathname || '/dashboard';
   
   const [formData, setFormData] = useState({
     email: '',
@@ -23,12 +27,12 @@ const Login = () => {
   useEffect(() => {
     // Clear any previous auth errors when the component mounts
     clearError();
-    
+
     if (isAuthenticated && currentUser) {
-      // Redirect to appropriate dashboard based on user role
-      navigate('/dashboard');
+      // Redirect to the original page the user was trying to access, or dashboard
+      navigate(from);
     }
-  }, [isAuthenticated, currentUser, navigate, clearError]);
+  }, [isAuthenticated, currentUser, navigate, clearError, from]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -42,26 +46,20 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     setLoginError('');
-    
+
     try {
       // Validate inputs
       if (formData.email === '' || formData.password === '') {
         throw new Error('Please enter both email and password.');
       }
-      
+
       // Attempt to log in
-      const user = await login(formData.email, formData.password);
-      
+      await login(formData.email, formData.password);
+
       // Save login state (already handled by auth.js)
-      
-      // Redirect based on user role
-      if (user.role === 'designer') {
-        navigate('/designer/dashboard');
-      } else if (user.role === 'producer') {
-        navigate('/producer/dashboard');
-      } else {
-        navigate('/dashboard');
-      }
+
+      // Redirect to the original page the user was trying to access
+      navigate(from);
     } catch (err) {
       console.error('Login error:', err);
       setLoginError(err.message || 'Failed to log in. Please check your credentials.');
@@ -77,23 +75,17 @@ const Login = () => {
       password: 'password123',
       rememberMe: false
     };
-    
+
     setFormData(demoCredentials);
-    
+
     // Auto-login with demo credentials
     try {
       setLoading(true);
       setLoginError('');
-      const user = await login(demoCredentials.email, demoCredentials.password);
-      
-      // Redirect based on user role
-      if (user.role === 'designer') {
-        navigate('/designer/dashboard');
-      } else if (user.role === 'producer') {
-        navigate('/producer/dashboard');
-      } else {
-        navigate('/dashboard');
-      }
+      await login(demoCredentials.email, demoCredentials.password);
+
+      // Redirect to the original page the user was trying to access
+      navigate(from);
     } catch (err) {
       console.error('Demo login error:', err);
       setLoginError(err.message || 'Failed to log in with demo account.');
@@ -108,23 +100,17 @@ const Login = () => {
       password: 'password123',
       rememberMe: false
     };
-    
+
     setFormData(demoCredentials);
-    
+
     // Auto-login with demo credentials
     try {
       setLoading(true);
       setLoginError('');
-      const user = await login(demoCredentials.email, demoCredentials.password);
-      
-      // Redirect based on user role
-      if (user.role === 'designer') {
-        navigate('/designer/dashboard');
-      } else if (user.role === 'producer') {
-        navigate('/producer/dashboard');
-      } else {
-        navigate('/dashboard');
-      }
+      await login(demoCredentials.email, demoCredentials.password);
+
+      // Redirect to the original page the user was trying to access
+      navigate(from);
     } catch (err) {
       console.error('Demo login error:', err);
       setLoginError(err.message || 'Failed to log in with demo account.');

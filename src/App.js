@@ -15,6 +15,7 @@ import DashboardLayout from './components/layout/DashboardLayout';
 import { useAuth } from './services/auth/AuthContext';
 import AppLayout from './components/layout/AppLayout';
 import { ThemeProvider } from './services/theme/ThemeContext';
+import SessionPersistence from './components/auth/SessionPersistence';
 
 // Import pages
 import Home from './pages/Home';
@@ -163,6 +164,7 @@ function App() {
     <AppLayout>
       <ThemeProvider>
       <Router basename="/">
+        <SessionPersistence />
         <Routes>
           {/* Public routes with main layout - Home page with hidden top banner */}
           <Route path="/" element={

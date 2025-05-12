@@ -91,8 +91,8 @@ const Header = () => {
 
             {isAuthenticated ? (
               <div className="flex items-center space-x-2">
-                <Link 
-                  to={currentUser?.role === 'designer' ? '/designer-dashboard' : '/producer-dashboard'}
+                <Link
+                  to="/dashboard"
                   className="btn btn-outline btn-sm"
                 >
                   <User className="h-4 w-4" />
@@ -225,8 +225,8 @@ const Header = () => {
 
             {isAuthenticated ? (
               <>
-                <Link 
-                  to={currentUser?.role === 'designer' ? '/designer-dashboard' : '/producer-dashboard'}
+                <Link
+                  to="/dashboard"
                   className="nav-item"
                   onClick={() => setMobileMenuOpen(false)}
                 >

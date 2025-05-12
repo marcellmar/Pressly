@@ -8,6 +8,8 @@
 // Constants
 const LOCAL_STORAGE_TOKEN_KEY = 'pressly_auth_token';
 const LOCAL_STORAGE_USER_KEY = 'pressly_current_user';
+const SESSION_EXPIRY_KEY = 'pressly_session_expires';
+const SESSION_EXPIRY_LENGTH = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
 
 /**
  * Save the user database to localStorage
@@ -82,7 +84,7 @@ const generateToken = (userId) => {
     sub: userId,
     name: getUserById(userId).email,
     iat: Date.now(),
-    exp: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
+    exp: Date.now() + SESSION_EXPIRY_LENGTH
   }));
   const signature = btoa(Math.random().toString(36).substring(2));
   
@@ -105,6 +107,21 @@ const getUserById = (id) => {
  */
 const getUserByEmail = (email) => {
   return users.find(user => user.email === email) || null;
+};
+
+/**
+ * Save authentication session with expiry time
+ * @param {string} token - The auth token
+ * @param {Object} user - The user object to save
+ */
+const saveAuthSession = (token, user) => {
+  // Set token and user in localStorage
+  localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+  localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(user));
+  
+  // Set session expiry timestamp
+  const expiryTime = Date.now() + SESSION_EXPIRY_LENGTH;
+  localStorage.setItem(SESSION_EXPIRY_KEY, expiryTime.toString());
 };
 
 /**
@@ -150,22 +167,12 @@ export const registerUser = (userData) => {
         // Generate token
         const token = generateToken(newUser.id);
         
-        // Save session using secure cookies instead of localStorage
-        import('./authCookies').then(({ setAuthToken, setCurrentUser }) => {
-          // Set auth token
-          setAuthToken(token);
-          
-          // Save current user (without password)
-          const userWithoutPassword = { ...newUser };
-          delete userWithoutPassword.password;
-          setCurrentUser(userWithoutPassword);
-        }).catch(err => console.error('Error loading auth cookies module:', err));
-        
-        // Fallback to localStorage if cookie import fails
-        localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+        // Create user object without password
         const userWithoutPassword = { ...newUser };
         delete userWithoutPassword.password;
-        localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(userWithoutPassword));
+        
+        // Save authentication session
+        saveAuthSession(token, userWithoutPassword);
         
         // Return user data without password
         resolve(userWithoutPassword);
@@ -211,22 +218,12 @@ export const loginUser = (email, password) => {
         // Generate token
         const token = generateToken(user.id);
         
-        // Save session using secure cookies instead of localStorage
-        import('./authCookies').then(({ setAuthToken, setCurrentUser }) => {
-          // Set auth token
-          setAuthToken(token);
-          
-          // Save current user (without password)
-          const userWithoutPassword = { ...user };
-          delete userWithoutPassword.password;
-          setCurrentUser(userWithoutPassword);
-        }).catch(err => console.error('Error loading auth cookies module:', err));
-        
-        // Fallback to localStorage if cookie import fails
-        localStorage.setItem(LOCAL_STORAGE_TOKEN_KEY, token);
+        // Create user object without password
         const userWithoutPassword = { ...user };
         delete userWithoutPassword.password;
-        localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(userWithoutPassword));
+        
+        // Save authentication session
+        saveAuthSession(token, userWithoutPassword);
         
         // Return user data without password
         resolve(userWithoutPassword);
@@ -245,14 +242,10 @@ export const logoutUser = () => {
   return new Promise((resolve) => {
     // Simulate API delay
     setTimeout(() => {
-      // Clear session from cookies
-      import('./authCookies').then(({ clearAuth }) => {
-        clearAuth();
-      }).catch(err => console.error('Error loading auth cookies module:', err));
-      
-      // Also clear localStorage for backward compatibility
+      // Clear localStorage items
       localStorage.removeItem(LOCAL_STORAGE_TOKEN_KEY);
       localStorage.removeItem(LOCAL_STORAGE_USER_KEY);
+      localStorage.removeItem(SESSION_EXPIRY_KEY);
       
       resolve();
     }, 300);
@@ -260,29 +253,31 @@ export const logoutUser = () => {
 };
 
 /**
+ * Check if the authentication session is still valid
+ * @returns {boolean} - Whether the session is still valid
+ */
+export const isSessionValid = () => {
+  const expiryTime = localStorage.getItem(SESSION_EXPIRY_KEY);
+  if (!expiryTime) return false;
+  
+  return Date.now() < parseInt(expiryTime, 10);
+};
+
+/**
  * Get the current authenticated user
  * @returns {Object|null} - The current user or null if not authenticated
  */
 export const getCurrentUser = () => {
-  // Try to get user from cookies first
-  let user = null;
-  
-  try {
-    // Use dynamic import for cookies to avoid issues with SSR
-    const cookieModule = require('./authCookies');
-    user = cookieModule.getCurrentUser();
-  } catch (err) {
-    // Fallback to localStorage if cookie module is not available
-    console.log('Falling back to localStorage for user data');
+  // Check if session is still valid
+  if (!isSessionValid()) {
+    // Clear expired session
+    logoutUser();
+    return null;
   }
   
-  // If not found in cookies, try localStorage
-  if (!user) {
-    const userJson = localStorage.getItem(LOCAL_STORAGE_USER_KEY);
-    user = userJson ? JSON.parse(userJson) : null;
-  }
-  
-  return user;
+  // Get user from localStorage
+  const userJson = localStorage.getItem(LOCAL_STORAGE_USER_KEY);
+  return userJson ? JSON.parse(userJson) : null;
 };
 
 /**
@@ -290,18 +285,11 @@ export const getCurrentUser = () => {
  * @returns {boolean} - Whether the user is authenticated
  */
 export const isAuthenticated = () => {
-  // Try to use cookie authentication first
-  try {
-    const cookieModule = require('./authCookies');
-    if (cookieModule.isAuthenticated()) {
-      return true;
-    }
-  } catch (err) {
-    // Fallback to localStorage if cookie module is not available
-    console.log('Falling back to localStorage for auth check');
+  // Check if session is valid
+  if (!isSessionValid()) {
+    return false;
   }
   
-  // Fallback to localStorage check
   const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
   const user = getCurrentUser();
   
@@ -347,10 +335,16 @@ export const updateUser = (userData) => {
         users[userIndex] = updatedUser;
         saveUsers();
         
-        // Update current user in localStorage (without password)
+        // Create updated user without password
         const userWithoutPassword = { ...updatedUser };
         delete userWithoutPassword.password;
+        
+        // Update in localStorage
         localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(userWithoutPassword));
+        
+        // Reset session expiry (extends the session)
+        const expiryTime = Date.now() + SESSION_EXPIRY_LENGTH;
+        localStorage.setItem(SESSION_EXPIRY_KEY, expiryTime.toString());
         
         // Return updated user data without password
         resolve(userWithoutPassword);
@@ -361,11 +355,41 @@ export const updateUser = (userData) => {
   });
 };
 
-export default {
+/**
+ * Refresh the current authentication session
+ * @returns {Promise<boolean>} - Promise that resolves to true if session was refreshed, false otherwise
+ */
+export const refreshSession = () => {
+  return new Promise((resolve) => {
+    // Simulate API delay
+    setTimeout(() => {
+      const currentUser = getCurrentUser();
+      const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_KEY);
+      
+      if (!currentUser || !token) {
+        resolve(false);
+        return;
+      }
+      
+      // Reset session expiry (extends the session)
+      const expiryTime = Date.now() + SESSION_EXPIRY_LENGTH;
+      localStorage.setItem(SESSION_EXPIRY_KEY, expiryTime.toString());
+      
+      resolve(true);
+    }, 200);
+  });
+};
+
+// Create a named export object
+const authService = {
   registerUser,
   loginUser,
   logoutUser,
   getCurrentUser,
   isAuthenticated,
-  updateUser
+  updateUser,
+  refreshSession,
+  isSessionValid
 };
+
+export default authService;

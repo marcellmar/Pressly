@@ -1,15 +1,19 @@
 import React, { createContext, useState, useContext, useEffect, useCallback } from 'react';
-import { 
-  loginUser, 
-  registerUser, 
-  logoutUser, 
+import {
+  loginUser,
+  registerUser,
+  logoutUser,
   getCurrentUser,
-  isAuthenticated as checkAuth,
-  updateUser
+  updateUser,
+  refreshSession,
+  isSessionValid
 } from './auth';
 
 // Create context
 const AuthContext = createContext();
+
+// Session refresh interval (every 15 minutes)
+const SESSION_REFRESH_INTERVAL = 15 * 60 * 1000;
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -17,14 +21,47 @@ export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Load user from local storage on mount
+  // Load user from local storage on mount and set up session refresh
   useEffect(() => {
-    const user = getCurrentUser();
-    if (user) {
-      setCurrentUser(user);
-      setIsAuthenticated(true);
-    }
-    setLoading(false);
+    // Initialize auth state from local storage
+    const initializeAuth = () => {
+      const user = getCurrentUser();
+      if (user && isSessionValid()) {
+        setCurrentUser(user);
+        setIsAuthenticated(true);
+      } else {
+        // Clear any invalid sessions
+        logoutUser();
+        setCurrentUser(null);
+        setIsAuthenticated(false);
+      }
+      setLoading(false);
+    };
+    
+    // Call initialization
+    initializeAuth();
+
+    // Set up periodic session refresh for authenticated users
+    const refreshIntervalId = setInterval(() => {
+      if (isSessionValid()) {
+        refreshSession()
+          .then(refreshed => {
+            if (!refreshed) {
+              // If refresh failed, log out user
+              setCurrentUser(null);
+              setIsAuthenticated(false);
+            }
+          })
+          .catch(err => {
+            console.error("Session refresh error:", err);
+          });
+      }
+    }, SESSION_REFRESH_INTERVAL);
+
+    // Clean up interval on unmount
+    return () => {
+      clearInterval(refreshIntervalId);
+    };
   }, []);
 
   // Clear any error messages
@@ -89,6 +126,25 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Check if the current session is valid
+  const checkSession = useCallback(() => {
+    const valid = isSessionValid();
+    if (!valid && isAuthenticated) {
+      // Session expired, log out user
+      logout();
+    }
+    return valid;
+  }, [isAuthenticated]);
+
+  // Refresh the current session
+  const refreshUserSession = useCallback(async () => {
+    if (isAuthenticated) {
+      const refreshed = await refreshSession();
+      return refreshed;
+    }
+    return false;
+  }, [isAuthenticated]);
+
   const value = {
     currentUser,
     loading,
@@ -98,7 +154,9 @@ export const AuthProvider = ({ children }) => {
     register,
     login,
     logout,
-    updateProfile
+    updateProfile,
+    checkSession,
+    refreshSession: refreshUserSession
   };
 
   return (
