@@ -1,0 +1,187 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}Designer Dashboard - Pressly{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+    <div class="dashboard-header">
+        <h1>Designer Dashboard</h1>
+        <a href="{{ url_for('designs') }}" class="btn">Create New Design</a>
+    </div>
+    
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <h3>5</h3>
+            <p>Active Designs</p>
+        </div>
+        <div class="stat-card">
+            <h3>3</h3>
+            <p>Orders in Progress</p>
+        </div>
+        <div class="stat-card">
+            <h3>12</h3>
+            <p>Completed Orders</p>
+        </div>
+        <div class="stat-card">
+            <h3>4.8</h3>
+            <p>Average Rating</p>
+        </div>
+    </div>
+    
+    <div class="dashboard-section">
+        <h2>Recent Orders</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Producer</th>
+                        <th>Design</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#12345</td>
+                        <td>PrintMasters Inc.</td>
+                        <td>Summer T-Shirt Design</td>
+                        <td><span class="status-badge status-info">In Production</span></td>
+                        <td>2025-04-01</td>
+                        <td><a href="#" class="btn btn-sm">View</a></td>
+                    </tr>
+                    <tr>
+                        <td>#12344</td>
+                        <td>Quality Prints</td>
+                        <td>Event Poster</td>
+                        <td><span class="status-badge status-warning">Pending</span></td>
+                        <td>2025-03-28</td>
+                        <td><a href="#" class="btn btn-sm">View</a></td>
+                    </tr>
+                    <tr>
+                        <td>#12343</td>
+                        <td>PrintMasters Inc.</td>
+                        <td>Business Cards</td>
+                        <td><span class="status-badge status-success">Completed</span></td>
+                        <td>2025-03-15</td>
+                        <td><a href="#" class="btn btn-sm">View</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="dashboard-section">
+        <h2>Recent Messages</h2>
+        <div class="message-list">
+            <div class="message-item card">
+                <div class="message-header">
+                    <div class="message-sender">PrintMasters Inc.</div>
+                    <div class="message-date">2025-04-02</div>
+                </div>
+                <div class="message-content">
+                    <p>Your order #12345 is now in production. Expected completion date is April 8th.</p>
+                </div>
+                <div class="message-actions">
+                    <a href="{{ url_for('messages') }}" class="btn btn-sm">Reply</a>
+                </div>
+            </div>
+            <div class="message-item card">
+                <div class="message-header">
+                    <div class="message-sender">Quality Prints</div>
+                    <div class="message-date">2025-03-28</div>
+                </div>
+                <div class="message-content">
+                    <p>We've received your order #12344. We'll need to discuss some details about the paper quality before proceeding.</p>
+                </div>
+                <div class="message-actions">
+                    <a href="{{ url_for('messages') }}" class="btn btn-sm">Reply</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dashboard-section">
+        <h2>Recommended Producers</h2>
+        <div class="grid">
+            <div class="producer-card card">
+                <h3 class="producer-name">Eco Printing Solutions</h3>
+                <div class="producer-rating">
+                    <span><i class="fas fa-star"></i> 4.9</span> (45 reviews)
+                </div>
+                <p class="producer-capabilities">Specializes in eco-friendly materials and sustainable printing processes.</p>
+                <div class="card-actions">
+                    <a href="#" class="btn btn-sm">View Profile</a>
+                </div>
+            </div>
+            <div class="producer-card card">
+                <h3 class="producer-name">Digital Press Masters</h3>
+                <div class="producer-rating">
+                    <span><i class="fas fa-star"></i> 4.7</span> (32 reviews)
+                </div>
+                <p class="producer-capabilities">High-volume digital printing with quick turnaround times.</p>
+                <div class="card-actions">
+                    <a href="#" class="btn btn-sm">View Profile</a>
+                </div>
+            </div>
+            <div class="producer-card card">
+                <h3 class="producer-name">Specialty Textiles</h3>
+                <div class="producer-rating">
+                    <span><i class="fas fa-star"></i> 4.8</span> (27 reviews)
+                </div>
+                <p class="producer-capabilities">Custom fabric printing for apparel and home decor.</p>
+                <div class="card-actions">
+                    <a href="#" class="btn btn-sm">View Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Designer dashboard loaded");
+        
+        try {
+            // Check if user is logged in as a designer
+            const userJson = localStorage.getItem('presslyCurrentUser');
+            console.log("Current user from localStorage:", userJson);
+            
+            if (!userJson) {
+                console.log("No user found in localStorage");
+                window.location.href = '{{ url_for("login") }}';
+                return;
+            }
+            
+            const currentUser = JSON.parse(userJson);
+            console.log("User parsed:", currentUser);
+            
+            // Check if user is a designer
+            const userType = currentUser.userType || currentUser.user_type;
+            console.log("User type:", userType);
+            
+            if (userType !== 'designer') {
+                console.log("User is not a designer, redirecting to login");
+                window.location.href = '{{ url_for("login") }}';
+                return;
+            }
+            
+            // Update dashboard header with user's name
+            const dashboardHeader = document.querySelector('.dashboard-header h1');
+            if (dashboardHeader) {
+                const fullName = currentUser.fullName || currentUser.full_name || 'Designer';
+                dashboardHeader.textContent = `${fullName}'s Designer Dashboard`;
+            }
+            
+            console.log("Designer dashboard initialized successfully");
+        } catch (error) {
+            console.error("Error in designer dashboard:", error);
+            // Redirect to login in case of error
+            window.location.href = '{{ url_for("login") }}';
+        }
+    });
+</script>
+{% endblock %}

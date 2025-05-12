@@ -1,0 +1,247 @@
+/* Integration Styles */
+
+.integrations-guide {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.integrations-intro {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  font-size: 1.1rem;
+  color: var(--dark);
+}
+
+.integration-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.integration-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.integration-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.integration-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.integration-logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 1rem;
+  object-fit: contain;
+}
+
+.integration-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: var(--primary);
+}
+
+.integration-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+}
+
+.integration-features li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.integration-features li i {
+  color: var(--success);
+  margin-right: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.integration-pricing h4 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: var(--dark);
+}
+
+.pricing-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pricing-tier {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background-color: var(--light);
+  border-radius: 4px;
+}
+
+.tier-name {
+  font-weight: 600;
+  color: var(--dark);
+}
+
+.tier-price {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.tier-details {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* API Integration Section */
+.api-integration {
+  background-color: var(--light);
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 3rem;
+}
+
+.api-integration h3 {
+  margin-bottom: 1rem;
+}
+
+.api-integration p {
+  margin-bottom: 2rem;
+}
+
+.api-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.api-feature {
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+.api-feature i {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.api-feature h4 {
+  margin-bottom: 0.75rem;
+  color: var(--dark);
+}
+
+.api-feature p {
+  font-size: 0.9rem;
+  margin-bottom: 0;
+}
+
+.api-pricing h4 {
+  margin-bottom: 1rem;
+}
+
+.api-pricing-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.api-pricing-table th,
+.api-pricing-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.api-pricing-table th {
+  background-color: var(--primary);
+  color: white;
+  font-weight: 600;
+}
+
+.api-pricing-table tr:last-child td {
+  border-bottom: none;
+}
+
+.api-pricing-table tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Integration FAQ Section */
+.integration-faq {
+  margin-bottom: 3rem;
+}
+
+.integration-faq h3 {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Integration CTA Section */
+.integration-cta {
+  background-color: var(--primary);
+  color: white;
+  text-align: center;
+  padding: 3rem 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.integration-cta h3 {
+  margin-bottom: 1rem;
+}
+
+.integration-cta p {
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .integration-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .api-features {
+    grid-template-columns: 1fr;
+  }
+  
+  .pricing-tier {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}

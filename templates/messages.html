@@ -1,0 +1,131 @@
+{% extends "layout.html" %}
+
+{% block title %}Messages - Pressly{% endblock %}
+
+{% block content %}
+<section class="messages-section">
+    <div class="container">
+        <h1>Messages</h1>
+        
+        <div class="messages-container">
+            <div class="messages-sidebar">
+                <div class="messages-header">
+                    <h3>Conversations</h3>
+                </div>
+                <div class="conversation-list">
+                    <div class="conversation-item active">
+                        <div class="conversation-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="conversation-preview">
+                            <div class="conversation-name">PrintMasters Inc.</div>
+                            <div class="conversation-last-message">Your order #12345 is now in production...</div>
+                            <div class="conversation-time">2025-04-02</div>
+                        </div>
+                    </div>
+                    <div class="conversation-item">
+                        <div class="conversation-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="conversation-preview">
+                            <div class="conversation-name">Quality Prints</div>
+                            <div class="conversation-last-message">We've received your order #12344...</div>
+                            <div class="conversation-time">2025-03-28</div>
+                        </div>
+                    </div>
+                    <div class="conversation-item">
+                        <div class="conversation-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="conversation-preview">
+                            <div class="conversation-name">Eco Printing Solutions</div>
+                            <div class="conversation-last-message">Thank you for your interest in our services...</div>
+                            <div class="conversation-time">2025-03-20</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="messages-main">
+                <div class="messages-header">
+                    <div class="messages-title">
+                        <h3>PrintMasters Inc.</h3>
+                        <span class="order-reference">Order #12345</span>
+                    </div>
+                </div>
+                
+                <div class="messages-content">
+                    <div class="message-date-divider">April 2, 2025</div>
+                    
+                    <div class="message-item other">
+                        <div class="message-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="message-bubble">
+                            <div class="message-text">
+                                Hello! Your order #12345 is now in production. Expected completion date is April 8th.
+                            </div>
+                            <div class="message-time">10:15 AM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message-item self">
+                        <div class="message-bubble">
+                            <div class="message-text">
+                                Great, thank you for the update! Will you notify me when it's ready for pickup?
+                            </div>
+                            <div class="message-time">11:30 AM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message-item other">
+                        <div class="message-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="message-bubble">
+                            <div class="message-text">
+                                Yes, absolutely. We'll send you a notification when it's ready. You can also check the status on your dashboard.
+                            </div>
+                            <div class="message-time">11:45 AM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message-date-divider">April 5, 2025</div>
+                    
+                    <div class="message-item other">
+                        <div class="message-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="message-bubble">
+                            <div class="message-text">
+                                Just wanted to update you that your order is progressing nicely. We're currently at the final printing stage.
+                            </div>
+                            <div class="message-time">2:20 PM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="message-item self">
+                        <div class="message-bubble">
+                            <div class="message-text">
+                                That's great news! Looking forward to seeing the final result.
+                            </div>
+                            <div class="message-time">3:05 PM</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="messages-input">
+                    <form method="POST" action="{{ url_for('messages') }}">
+                        <div class="message-form">
+                            <textarea name="message" placeholder="Type your message here..." rows="2"></textarea>
+                            <button type="submit" class="btn btn-sm">
+                                <i class="fas fa-paper-plane"></i> Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

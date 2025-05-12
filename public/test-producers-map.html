@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Producers Map Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .result {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .failure {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0069d9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Producers Map Test</h1>
+    <p>This page tests if all producers are correctly showing on the Producers page map.</p>
+    
+    <div>
+        <h2>Instructions</h2>
+        <ol>
+            <li>Start the React app with <code>npm start</code></li>
+            <li>Navigate to the Producers page</li>
+            <li>Open the browser console (F12)</li>
+            <li>Copy and paste the test script below into the console</li>
+            <li>Check the results in the console</li>
+        </ol>
+    </div>
+    
+    <div>
+        <h2>Test Script</h2>
+        <pre>
+// Test script to verify all producers are showing on the map
+(function() {
+    console.log('======= PRODUCER MAP TEST SCRIPT RUNNING =======');
+    
+    // Check producers in state
+    const producerCount = window.filteredProducers ? window.filteredProducers.length : 'unknown';
+    console.log(`Total producers in data: ${producerCount}`);
+    
+    // Check map markers
+    const markerElements = document.querySelectorAll('.producer-marker');
+    console.log(`Producer markers in DOM: ${markerElements.length}`);
+    
+    // Check marker stats if available
+    if (window.mapStats) {
+        console.log('Map statistics:', window.mapStats);
+        
+        if (window.mapStats.totalMarkers >= 30) {
+            console.log('%c✅ TEST PASSED: At least 30 markers are showing on the map', 'color: green; font-weight: bold');
+        } else {
+            console.log('%c❌ TEST FAILED: Fewer than 30 markers are showing on the map', 'color: red; font-weight: bold');
+        }
+    } else {
+        // Try to get info from references directly
+        const markersLength = window.markersRef && window.markersRef.current ? 
+            window.markersRef.current.length : 'unknown';
+        
+        console.log(`Markers reference length: ${markersLength}`);
+        
+        if (markersLength >= 30) {
+            console.log('%c✅ TEST PASSED: At least 30 markers are showing on the map', 'color: green; font-weight: bold');
+        } else {
+            console.log('%c❌ TEST FAILED: Fewer than 30 markers are showing on the map', 'color: red; font-weight: bold');
+        }
+    }
+    
+    console.log('============================================');
+})();
+</pre>
+    </div>
+    
+    <div class="result warning">
+        <h3>Expected Results</h3>
+        <p>If our fixes worked correctly, you should see:</p>
+        <ul>
+            <li>Total producers in data: 35+</li>
+            <li>Producer markers in DOM or marker reference length: 35+</li>
+            <li>A success message indicating that the test passed</li>
+        </ul>
+    </div>
+    
+    <div>
+        <h2>Manual Verification</h2>
+        <p>Additionally, you can visually confirm that the map is showing all producers by:</p>
+        <ol>
+            <li>Looking at the map to see if it appears to have many markers (30+)</li>
+            <li>Checking the console for logs showing the coordinates for all producers</li>
+            <li>Verifying that the "Map markers" log shows a high number</li>
+        </ol>
+    </div>
+</body>
+</html>

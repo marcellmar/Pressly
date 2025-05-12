@@ -1,0 +1,816 @@
+{% extends "dashboard_layout.html" %}
+
+{% block title %}My Designs - Pressly{% endblock %}
+
+{% block content %}
+<section class="designs-section">
+    <div class="container">
+        <div class="designs-container">
+            <!-- Side Navigation -->
+            <div class="designs-sidebar">
+                <div class="sidebar-header">
+                    <h3>Menu</h3>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li class="active">
+                            <a href="{{ url_for('designs') }}">
+                                <i class="fas fa-layer-group"></i> My Designs
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-star"></i> Favorites
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-history"></i> Recent Designs
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-share-alt"></i> Shared with Me
+                            </a>
+                        </li>
+                        <li class="sidebar-divider"></li>
+                        <li class="sidebar-category">
+                            <span>Collections</span>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-folder"></i> T-Shirts
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-folder"></i> Posters
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-folder"></i> Business Cards
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="create-collection">
+                                <i class="fas fa-plus"></i> New Collection
+                            </a>
+                        </li>
+                        <li class="sidebar-divider"></li>
+                        <li>
+                            <a href="{{ url_for('producers') }}">
+                                <i class="fas fa-print"></i> Find Producers
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-cog"></i> Settings
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="designs-main">
+                <!-- Top actions bar -->
+                <div class="designs-actions-bar">
+                    <div class="designs-heading">
+                        <h1>My Designs</h1>
+                        <p class="designs-count" id="designs-count">0 designs</p>
+                    </div>
+                    <div class="designs-tools">
+                        <div class="search-container">
+                            <input type="text" id="design-search" placeholder="Search designs...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                        <button id="new-design-btn" class="btn">
+                            <i class="fas fa-plus"></i> Create New Design
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter bar -->
+                <div class="designs-filter-bar">
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">All Designs</button>
+                        <button class="filter-tab" data-filter="active">Active</button>
+                        <button class="filter-tab" data-filter="draft">Drafts</button>
+                        <button class="filter-tab" data-filter="archived">Archived</button>
+                    </div>
+                    <div class="view-options">
+                        <button class="view-option active" data-view="grid">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button class="view-option" data-view="list">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Designs gallery grid -->
+                <div id="designs-container">
+                    <div id="designs-grid" class="designs-grid">
+                        <!-- Designs will be loaded here dynamically -->
+                    </div>
+                    
+                    <!-- Empty state -->
+                    <div id="empty-state" class="empty-state" style="display: none;">
+                        <div class="empty-state-content">
+                            <div class="empty-state-icon">
+                                <i class="fas fa-pencil-alt"></i>
+                            </div>
+                            <h3>No Designs Yet</h3>
+                            <p>Create your first design to get started with Pressly's platform.</p>
+                            <button id="empty-new-design-btn" class="btn">Create Your First Design</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Design form popup -->
+    <div id="design-form-overlay" class="overlay">
+        <div id="design-form-container" class="card popup-card">
+            <div class="popup-header">
+                <h2>Create New Design</h2>
+                <button type="button" id="close-design-form" class="close-btn">&times;</button>
+            </div>
+            <form id="design-form">
+                <div class="form-group">
+                    <label for="design-title">Design Title</label>
+                    <input type="text" id="design-title" name="title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="design-description">Description</label>
+                    <textarea id="design-description" name="description" rows="4"></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="design-size">Size</label>
+                        <input type="text" id="design-size" name="size" placeholder="e.g., 8.5x11 inches">
+                    </div>
+                    
+                    <div class="form-group half">
+                        <label for="design-colors">Colors</label>
+                        <input type="text" id="design-colors" name="colors" placeholder="e.g., CMYK, RGB">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="design-materials">Recommended Materials</label>
+                    <input type="text" id="design-materials" name="materials" placeholder="e.g., 100lb Gloss, Canvas, Cotton">
+                </div>
+                
+                <div class="form-group">
+                    <label for="design-file">Upload Design File</label>
+                    <div class="file-upload-area">
+                        <input type="file" id="design-file" name="file" accept=".png,.jpg,.jpeg,.gif,.pdf,.ai,.psd,.eps,.svg">
+                        <div class="file-upload-placeholder">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag and drop your file here or click to browse</p>
+                            <p class="file-specs">Accepted formats: PNG, JPG, GIF, PDF, AI, PSD, EPS, SVG</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Preview</label>
+                    <div id="design-preview" class="design-preview">
+                        <!-- Preview will be dynamically updated -->
+                    </div>
+                </div>
+                
+                <div id="design-error" class="flash flash-danger" style="display: none;"></div>
+                <div id="design-success" class="flash flash-success" style="display: none;"></div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn">Save Design</button>
+                    <button type="button" id="cancel-design-btn" class="btn btn-outline">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Designs page loaded");
+        
+        // Check if user is logged in as a designer
+        const currentUser = JSON.parse(localStorage.getItem('presslyCurrentUser'));
+        
+        if (!currentUser || currentUser.userType !== 'designer') {
+            // Redirect to login if not logged in as a designer
+            window.location.href = '{{ url_for("login") }}';
+            return;
+        }
+        
+        // Mobile sidebar toggle
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const designsSidebar = document.querySelector('.designs-sidebar');
+        
+        if (sidebarToggle && designsSidebar) {
+            sidebarToggle.addEventListener('click', function() {
+                designsSidebar.classList.toggle('active');
+            });
+        }
+        
+        // DOM elements
+        const designsGrid = document.getElementById('designs-grid');
+        const emptyState = document.getElementById('empty-state');
+        const designsCount = document.getElementById('designs-count');
+        const designFormOverlay = document.getElementById('design-form-overlay');
+        const designFormContainer = document.getElementById('design-form-container');
+        const newDesignBtn = document.getElementById('new-design-btn');
+        const emptyNewDesignBtn = document.getElementById('empty-new-design-btn');
+        const cancelDesignBtn = document.getElementById('cancel-design-btn');
+        const closeDesignFormBtn = document.getElementById('close-design-form');
+        const designForm = document.getElementById('design-form');
+        const errorMessage = document.getElementById('design-error');
+        const successMessage = document.getElementById('design-success');
+        const filterTabs = document.querySelectorAll('.filter-tab');
+        const viewOptions = document.querySelectorAll('.view-option');
+        const searchInput = document.getElementById('design-search');
+        
+        // Initial data load
+        loadDesigns();
+        
+        // Show/hide design form
+        function showDesignForm() {
+            designFormOverlay.style.display = 'flex';
+            document.getElementById('design-title').focus();
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        }
+        
+        function hideDesignForm() {
+            designFormOverlay.style.display = 'none';
+            designForm.reset();
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            document.body.style.overflow = 'auto'; // Allow scrolling again
+        }
+        
+        // Add event listeners for design form
+        if (newDesignBtn) {
+            newDesignBtn.addEventListener('click', showDesignForm);
+        }
+        
+        if (emptyNewDesignBtn) {
+            emptyNewDesignBtn.addEventListener('click', showDesignForm);
+        }
+        
+        if (cancelDesignBtn) {
+            cancelDesignBtn.addEventListener('click', hideDesignForm);
+        }
+        
+        if (closeDesignFormBtn) {
+            closeDesignFormBtn.addEventListener('click', hideDesignForm);
+        }
+        
+        // Close popup when clicking outside the form
+        designFormOverlay.addEventListener('click', function(e) {
+            if (e.target === designFormOverlay) {
+                hideDesignForm();
+            }
+        });
+        
+        // Filter tabs
+        filterTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                filterTabs.forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                filterDesigns();
+            });
+        });
+        
+        // View options
+        viewOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                viewOptions.forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                
+                const viewMode = this.getAttribute('data-view');
+                designsGrid.className = viewMode === 'list' ? 'designs-list' : 'designs-grid';
+            });
+        });
+        
+        // Search functionality
+        if (searchInput) {
+            searchInput.addEventListener('input', filterDesigns);
+        }
+        
+        // Design form functionality
+        if (designForm) {
+            const previewContainer = document.getElementById('design-preview');
+            const titleInput = document.getElementById('design-title');
+            const descriptionInput = document.getElementById('design-description');
+            const fileInput = document.getElementById('design-file');
+            const fileUploadArea = document.querySelector('.file-upload-area');
+            
+            // File upload styling
+            if (fileUploadArea) {
+                const filePlaceholder = fileUploadArea.querySelector('.file-upload-placeholder');
+                
+                fileInput.addEventListener('change', function(e) {
+                    if (this.files && this.files[0]) {
+                        const fileName = this.files[0].name;
+                        filePlaceholder.innerHTML = `
+                            <i class="fas fa-file"></i>
+                            <p class="file-name">${fileName}</p>
+                            <p class="file-action">Click to change file</p>
+                        `;
+                    } else {
+                        filePlaceholder.innerHTML = `
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Drag and drop your file here or click to browse</p>
+                            <p class="file-specs">Accepted formats: PNG, JPG, GIF, PDF, AI, PSD, EPS, SVG</p>
+                        `;
+                    }
+                });
+                
+                // Drag and drop functionality
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    fileUploadArea.addEventListener(eventName, preventDefaults, false);
+                });
+                
+                function preventDefaults(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    fileUploadArea.addEventListener(eventName, function() {
+                        fileUploadArea.classList.add('highlight');
+                    }, false);
+                });
+                
+                ['dragleave', 'drop'].forEach(eventName => {
+                    fileUploadArea.addEventListener(eventName, function() {
+                        fileUploadArea.classList.remove('highlight');
+                    }, false);
+                });
+                
+                fileUploadArea.addEventListener('drop', function(e) {
+                    fileInput.files = e.dataTransfer.files;
+                    
+                    // Trigger change event
+                    const event = new Event('change');
+                    fileInput.dispatchEvent(event);
+                }, false);
+            }
+            
+            // Handle file selection and preview
+            if (titleInput) titleInput.addEventListener('input', updatePreview);
+            if (descriptionInput) descriptionInput.addEventListener('input', updatePreview);
+            if (fileInput) fileInput.addEventListener('change', updatePreview);
+            
+            function updatePreview() {
+                if (!previewContainer) return;
+                
+                const title = titleInput.value || 'Design Title';
+                const description = descriptionInput.value || 'Design Description';
+                
+                let filePreview = `<div class="placeholder-image">Design Preview</div>`;
+                
+                // If file is selected, show preview for image files
+                if (fileInput && fileInput.files && fileInput.files[0]) {
+                    const file = fileInput.files[0];
+                    const fileName = file.name.toLowerCase();
+                    
+                    if (fileName.match(/\.(jpeg|jpg|png|gif)$/)) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const imageElement = document.createElement('img');
+                            imageElement.src = e.target.result;
+                            imageElement.alt = title;
+                            imageElement.className = 'design-thumbnail';
+                            
+                            const previewImageDiv = previewContainer.querySelector('.design-preview-image');
+                            if (previewImageDiv) {
+                                previewImageDiv.innerHTML = '';
+                                previewImageDiv.appendChild(imageElement);
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                        filePreview = '<div class="loading-preview">Loading preview...</div>';
+                    } else {
+                        // For non-image files, show an icon
+                        filePreview = `
+                            <div class="file-icon">
+                                <i class="fas fa-file"></i>
+                                <span>${file.name}</span>
+                            </div>
+                        `;
+                    }
+                }
+                
+                previewContainer.innerHTML = `
+                    <div class="preview-card">
+                        <div class="design-preview-image">
+                            ${filePreview}
+                        </div>
+                        <div class="preview-details">
+                            <h3>${title}</h3>
+                            <p>${description}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Initialize preview
+            updatePreview();
+            
+            // Handle form submission
+            designForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                // Reset messages
+                errorMessage.style.display = 'none';
+                successMessage.style.display = 'none';
+                
+                // Get form data
+                const title = document.getElementById('design-title').value;
+                const description = document.getElementById('design-description').value;
+                const size = document.getElementById('design-size').value;
+                const colors = document.getElementById('design-colors').value;
+                const materials = document.getElementById('design-materials').value;
+                
+                // Validate
+                if (!title) {
+                    errorMessage.textContent = 'Design title is required';
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+                
+                // Create design object
+                const designId = 'design_' + Date.now();
+                const fileInput = document.getElementById('design-file');
+                let filePath = null;
+                let fileData = null;
+                
+                // If file is selected, get the data URL for an image
+                if (fileInput && fileInput.files && fileInput.files[0]) {
+                    const file = fileInput.files[0];
+                    const fileName = file.name.toLowerCase();
+                    
+                    if (fileName.match(/\.(jpeg|jpg|png|gif)$/)) {
+                        // For images, we can store the data URL
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            fileData = e.target.result;
+                            
+                            // Now save the design
+                            saveDesign(designId, title, description, size, colors, materials, fileName, fileData);
+                        };
+                        reader.readAsDataURL(file);
+                        return; // Exit here, saving will happen in the onload callback
+                    } else {
+                        // For non-image files, just store the name
+                        filePath = file.name;
+                    }
+                }
+                
+                // Save design (without image data)
+                saveDesign(designId, title, description, size, colors, materials, filePath, null);
+            });
+            
+            function saveDesign(id, title, description, size, colors, materials, filePath, fileData) {
+                // Get existing designs from localStorage
+                let designs = JSON.parse(localStorage.getItem('presslyDesigns')) || [];
+                
+                // Create new design object
+                const newDesign = {
+                    id: id,
+                    designerId: currentUser.id,
+                    title: title,
+                    description: description,
+                    specifications: {
+                        size: size,
+                        colors: colors,
+                        materials: materials
+                    },
+                    status: 'draft',
+                    created_at: new Date().toISOString(),
+                    file_path: filePath,
+                    file_data: fileData
+                };
+                
+                // Add design to array and save to localStorage
+                designs.push(newDesign);
+                localStorage.setItem('presslyDesigns', JSON.stringify(designs));
+                
+                // Show success message
+                successMessage.textContent = 'Design created successfully!';
+                successMessage.style.display = 'block';
+                
+                // Reset form after a delay
+                setTimeout(function() {
+                    hideDesignForm();
+                    loadDesigns(); // Reload designs list
+                }, 1500);
+            }
+        }
+        
+        // Load and display designs
+        function loadDesigns() {
+            console.log("Loading designs...");
+            const designs = JSON.parse(localStorage.getItem('presslyDesigns')) || [];
+            
+            // Filter designs for current user
+            const userDesigns = designs.filter(design => design.designerId === currentUser.id);
+            console.log("User designs:", userDesigns);
+            
+            // Update designs count
+            designsCount.textContent = userDesigns.length === 1 ? 
+                                      '1 design' : 
+                                      `${userDesigns.length} designs`;
+            
+            if (userDesigns.length === 0) {
+                // Show empty state
+                emptyState.style.display = 'flex';
+                designsGrid.style.display = 'none';
+            } else {
+                // Hide empty state, show grid
+                emptyState.style.display = 'none';
+                designsGrid.style.display = 'grid';
+                
+                // Populate designs grid
+                const designsHTML = userDesigns.map(design => {
+                    // Prepare the design preview
+                    let designPreview = '';
+                    
+                    if (design.file_data) {
+                        // Show image if we have the data
+                        designPreview = `<img src="${design.file_data}" alt="${design.title}" class="design-thumbnail">`;
+                    } else if (design.file_path) {
+                        // Show file icon if we only have the path
+                        designPreview = `
+                            <div class="file-icon">
+                                <i class="fas fa-file"></i>
+                                <span>${design.file_path}</span>
+                            </div>
+                        `;
+                    } else {
+                        // No file attached
+                        designPreview = `<div class="placeholder-image"><i class="fas fa-image"></i></div>`;
+                    }
+                    
+                    // Format date
+                    const createdDate = new Date(design.created_at);
+                    const formattedDate = createdDate.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric'
+                    });
+                    
+                    // Determine status badge
+                    let statusClass = '';
+                    switch (design.status) {
+                        case 'active':
+                            statusClass = 'status-success';
+                            break;
+                        case 'draft':
+                            statusClass = 'status-warning';
+                            break;
+                        case 'archived':
+                            statusClass = 'status-muted';
+                            break;
+                        default:
+                            statusClass = 'status-info';
+                    }
+                    
+                    return `
+                        <div class="design-card" data-category="${design.status}" data-id="${design.id}">
+                            <div class="design-image">
+                                ${designPreview}
+                                <div class="design-overlay">
+                                    <button class="design-action view-design" data-id="${design.id}">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="design-action edit-design" data-id="${design.id}">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                                    <button class="design-action delete-design" data-id="${design.id}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="design-details">
+                                <h3 class="design-title">${design.title}</h3>
+                                <p class="design-description">${design.description || 'No description'}</p>
+                                <div class="design-meta">
+                                    <span class="design-date">${formattedDate}</span>
+                                    <span class="design-status ${statusClass}">${design.status}</span>
+                                </div>
+                                <div class="design-actions">
+                                    <a href="#" class="btn btn-sm find-producer-btn" data-id="${design.id}">Find Producer</a>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+                designsGrid.innerHTML = designsHTML;
+                
+                // Add event listeners to action buttons
+                document.querySelectorAll('.view-design').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const designId = this.getAttribute('data-id');
+                        viewDesign(designId);
+                    });
+                });
+                
+                document.querySelectorAll('.edit-design').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const designId = this.getAttribute('data-id');
+                        // In a full implementation, we would edit the design
+                        alert('Edit functionality would be implemented in a full version');
+                    });
+                });
+                
+                document.querySelectorAll('.delete-design').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const designId = this.getAttribute('data-id');
+                        if (confirm('Are you sure you want to delete this design?')) {
+                            deleteDesign(designId);
+                        }
+                    });
+                });
+                
+                document.querySelectorAll('.find-producer-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        // Redirect to producers page
+                        window.location.href = '{{ url_for("producers") }}';
+                    });
+                });
+                
+                // Filter designs based on current filter
+                filterDesigns();
+            }
+        }
+        
+        // Filter designs
+        function filterDesigns() {
+            const activeTab = document.querySelector('.filter-tab.active');
+            const filterValue = activeTab ? activeTab.getAttribute('data-filter') : 'all';
+            const searchValue = searchInput ? searchInput.value.toLowerCase() : '';
+            
+            const designCards = document.querySelectorAll('.design-card');
+            let visibleCount = 0;
+            
+            designCards.forEach(function(card) {
+                const category = card.dataset.category;
+                const title = card.querySelector('.design-title').textContent.toLowerCase();
+                const description = card.querySelector('.design-description').textContent.toLowerCase();
+                
+                const matchesFilter = filterValue === 'all' || category === filterValue;
+                const matchesSearch = !searchValue || 
+                                     title.includes(searchValue) || 
+                                     description.includes(searchValue);
+                
+                if (matchesFilter && matchesSearch) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Show empty state if no designs match filter
+            if (visibleCount === 0 && designCards.length > 0) {
+                if (!document.getElementById('no-results')) {
+                    const noResults = document.createElement('div');
+                    noResults.id = 'no-results';
+                    noResults.className = 'no-results';
+                    noResults.innerHTML = `
+                        <div class="empty-state-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>No designs found</h3>
+                        <p>Try changing your search or filter criteria</p>
+                    `;
+                    designsGrid.appendChild(noResults);
+                }
+            } else {
+                const noResults = document.getElementById('no-results');
+                if (noResults) {
+                    noResults.remove();
+                }
+            }
+        }
+        
+        // View design details
+        function viewDesign(designId) {
+            const designs = JSON.parse(localStorage.getItem('presslyDesigns')) || [];
+            const design = designs.find(d => d.id === designId);
+            
+            if (!design) return;
+            
+            // Create modal content
+            const modalHTML = `
+                <div class="design-modal">
+                    <div class="design-modal-content">
+                        <div class="design-modal-header">
+                            <h2>${design.title}</h2>
+                            <button class="close-modal">&times;</button>
+                        </div>
+                        <div class="design-modal-body">
+                            <div class="design-preview-large">
+                                ${design.file_data ? 
+                                  `<img src="${design.file_data}" alt="${design.title}" class="large-preview">` : 
+                                  `<div class="placeholder-image large"><i class="fas fa-image"></i></div>`}
+                            </div>
+                            <div class="design-details-full">
+                                <div class="detail-group">
+                                    <h3>Description</h3>
+                                    <p>${design.description || 'No description provided.'}</p>
+                                </div>
+                                <div class="detail-group">
+                                    <h3>Specifications</h3>
+                                    <ul class="specs-list">
+                                        <li><strong>Size:</strong> ${design.specifications.size || 'Not specified'}</li>
+                                        <li><strong>Colors:</strong> ${design.specifications.colors || 'Not specified'}</li>
+                                        <li><strong>Materials:</strong> ${design.specifications.materials || 'Not specified'}</li>
+                                    </ul>
+                                </div>
+                                <div class="detail-group">
+                                    <h3>Status</h3>
+                                    <p class="status ${design.status === 'active' ? 'status-success' : 
+                                                     design.status === 'draft' ? 'status-warning' : 
+                                                     'status-muted'}">${design.status}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="design-modal-footer">
+                            <button class="btn btn-sm find-producer-modal" data-id="${design.id}">Find Producer</button>
+                            <button class="btn btn-sm btn-outline edit-design-modal" data-id="${design.id}">Edit Design</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Create modal element
+            const modalElement = document.createElement('div');
+            modalElement.className = 'modal-overlay';
+            modalElement.innerHTML = modalHTML;
+            document.body.appendChild(modalElement);
+            
+            // Prevent body scrolling
+            document.body.style.overflow = 'hidden';
+            
+            // Add event listeners
+            modalElement.querySelector('.close-modal').addEventListener('click', function() {
+                document.body.removeChild(modalElement);
+                document.body.style.overflow = 'auto';
+            });
+            
+            modalElement.querySelector('.find-producer-modal').addEventListener('click', function() {
+                window.location.href = '{{ url_for("producers") }}';
+            });
+            
+            modalElement.querySelector('.edit-design-modal').addEventListener('click', function() {
+                alert('Edit functionality would be implemented in a full version');
+            });
+            
+            // Close on overlay click
+            modalElement.addEventListener('click', function(e) {
+                if (e.target === modalElement) {
+                    document.body.removeChild(modalElement);
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+        
+        // Delete design
+        function deleteDesign(designId) {
+            let designs = JSON.parse(localStorage.getItem('presslyDesigns')) || [];
+            
+            // Remove the design with the matching ID
+            designs = designs.filter(design => design.id !== designId);
+            
+            // Save updated designs to localStorage
+            localStorage.setItem('presslyDesigns', JSON.stringify(designs));
+            
+            // Reload designs
+            loadDesigns();
+        }
+        
+        // Collection functionality (placeholder)
+        document.querySelector('.create-collection')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Create collection functionality would be implemented in a full version');
+        });
+    });
+</script>
+{% endblock %}

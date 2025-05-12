@@ -1,0 +1,132 @@
+/* FindCreators specific styles */
+
+.designer-card {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.designer-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.designer-header {
+  margin-bottom: 1rem;
+}
+
+.designer-name {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.designer-rating {
+  display: flex;
+  align-items: center;
+}
+
+.designer-portfolio img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.375rem;
+}
+
+.designer-meta {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.designer-location {
+  display: flex;
+  align-items: center;
+}
+
+.designer-capacity {
+  margin: 0.75rem 0;
+}
+
+.capacity-bar-wrapper {
+  width: 100%;
+  height: 0.5rem;
+  background-color: #edf2f7;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.capacity-bar {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.5s ease;
+}
+
+/* Capacity bar colors based on availability */
+.capacity-high {
+  background-color: #28a745; /* Green for high availability */
+}
+
+.capacity-medium {
+  background-color: #ffc107; /* Yellow for medium availability */
+}
+
+.capacity-low {
+  background-color: #dc3545; /* Red for low availability */
+}
+
+.capacity-value {
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.designer-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+/* Filter badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.badge-outline {
+  background-color: transparent;
+  border: 1px solid #e2e8f0;
+}
+
+.bg-primary-light {
+  background-color: rgba(58, 110, 165, 0.1);
+}
+
+.text-primary {
+  color: #3a6ea5;
+}
+
+.bg-secondary-light {
+  background-color: rgba(255, 107, 107, 0.1);
+}
+
+.text-secondary {
+  color: #ff6b6b;
+}
+
+.bg-accent-light {
+  background-color: rgba(249, 168, 37, 0.1);
+}
+
+.text-accent {
+  color: #f9a825;
+}
+
+/* Additional styles for detailed designer profile */
+#designer-details {
+  position: relative;
+}

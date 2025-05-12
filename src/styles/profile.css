@@ -1,0 +1,139 @@
+/* Profile Page Styles */
+
+.profile-section {
+  padding: 2rem 0;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.profile-image-container {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  border: 3px solid var(--primary);
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-image-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: #adb5bd;
+}
+
+.profile-info {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.profile-name {
+  margin-bottom: 0.25rem;
+}
+
+.profile-role {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.profile-section-header {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.profile-field {
+  margin-bottom: 1.5rem;
+}
+
+.profile-field-label {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.profile-field-value {
+  line-height: 1.6;
+}
+
+.profile-field-label-inline {
+  font-weight: bold;
+  color: #666;
+  margin-right: 0.5rem;
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.profile-tag {
+  display: inline-block;
+  background-color: #e9ecef;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.profile-bio {
+  line-height: 1.6;
+}
+
+.profile-alert {
+  padding: 1rem;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.profile-alert-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.profile-alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.equipment-list {
+  list-style-position: inside;
+  padding-left: 1rem;
+}
+
+.equipment-list li {
+  margin-bottom: 0.5rem;
+}
+
+.profile-upload-btn {
+  cursor: pointer;
+}
+
+.profile-section-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .profile-section-content {
+    grid-template-columns: 1fr;
+  }
+}

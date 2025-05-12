@@ -1,0 +1,196 @@
+{% extends "layout.html" %}
+
+{% block title %}Register - Pressly{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-container">
+            <h1 class="text-center mb-4">Create an Account</h1>
+            <div class="card">
+                <form id="register-form" method="POST">
+                    <div class="form-group">
+                        <label for="user_type">I am a:</label>
+                        <select id="user_type" name="user_type" required>
+                            <option value="designer">Designer</option>
+                            <option value="producer">Print Producer</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="full_name">Full Name</label>
+                        <input type="text" id="full_name" name="full_name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required minlength="8">
+                        <div id="password-strength" class="password-strength"></div>
+                        <small>Password must be at least 8 characters long</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm Password</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required minlength="8">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number (optional)</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    
+                    <div id="producer_fields">
+                        <div class="form-group">
+                            <label for="business_name">Business Name</label>
+                            <input type="text" id="business_name" name="business_name">
+                        </div>
+                    </div>
+                    
+                    <div id="register-error" class="flash flash-danger" style="display: none;"></div>
+                    <div id="register-success" class="flash flash-success" style="display: none;"></div>
+                    
+                    <button type="submit" class="btn btn-block">Create Account</button>
+                </form>
+                
+                <div class="auth-links text-center mt-3">
+                    <p>Already have an account? <a href="{{ url_for('login') }}">Log In</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const userTypeSelect = document.getElementById('user_type');
+        const producerFields = document.getElementById('producer_fields');
+        const businessNameInput = document.getElementById('business_name');
+        const registerForm = document.getElementById('register-form');
+        const errorMessage = document.getElementById('register-error');
+        const successMessage = document.getElementById('register-success');
+        const passwordInput = document.getElementById('password');
+        const passwordStrength = document.getElementById('password-strength');
+        
+        // Toggle producer-specific fields
+        userTypeSelect.addEventListener('change', function() {
+            if (this.value === 'producer') {
+                producerFields.classList.add('visible');
+                businessNameInput.setAttribute('required', 'required');
+            } else {
+                producerFields.classList.remove('visible');
+                businessNameInput.removeAttribute('required');
+            }
+        });
+        
+        // Initial check
+        if (userTypeSelect.value === 'producer') {
+            producerFields.classList.add('visible');
+            businessNameInput.setAttribute('required', 'required');
+        }
+        
+        // Password strength checker
+        if (passwordInput) {
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                
+                // Length check
+                if (password.length >= 8) strength += 1;
+                if (password.length >= 12) strength += 1;
+                
+                // Complexity checks
+                if (/[A-Z]/.test(password)) strength += 1;  // Has uppercase
+                if (/[0-9]/.test(password)) strength += 1;  // Has number
+                if (/[^A-Za-z0-9]/.test(password)) strength += 1;  // Has special char
+                
+                // Update UI
+                passwordStrength.className = 'password-strength';
+                
+                if (password.length === 0) {
+                    passwordStrength.style.width = '0';
+                } else if (strength <= 2) {
+                    passwordStrength.classList.add('strength-weak');
+                } else if (strength <= 4) {
+                    passwordStrength.classList.add('strength-medium');
+                } else {
+                    passwordStrength.classList.add('strength-strong');
+                }
+            });
+        }
+        
+        // Handle form submission
+        registerForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            // Reset messages
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Get form data
+            const userType = userTypeSelect.value;
+            const fullName = document.getElementById('full_name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+            const phone = document.getElementById('phone').value;
+            const businessName = userType === 'producer' ? document.getElementById('business_name').value : '';
+            
+            // Validate password match
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'Passwords do not match';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Get existing users from localStorage
+            const users = JSON.parse(localStorage.getItem('presslyUsers')) || [];
+            
+            // Check if email already exists
+            if (users.some(user => user.email === email)) {
+                errorMessage.textContent = 'Email already registered';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            // Generate a unique ID
+            const userId = 'user_' + Date.now();
+            
+            // Create new user object
+            const newUser = {
+                id: userId,
+                email: email,
+                password: password,
+                fullName: fullName,
+                phone: phone,
+                userType: userType,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Add business name if producer
+            if (userType === 'producer') {
+                newUser.businessName = businessName;
+            }
+            
+            // Add user to array and save to localStorage
+            users.push(newUser);
+            localStorage.setItem('presslyUsers', JSON.stringify(users));
+            
+            // Show success message
+            successMessage.textContent = 'Registration successful! Redirecting to login...';
+            successMessage.style.display = 'block';
+            
+            // Redirect to login after a delay
+            setTimeout(function() {
+                window.location.href = '{{ url_for("login") }}';
+            }, 2000);
+        });
+    });
+</script>
+{% endblock %}

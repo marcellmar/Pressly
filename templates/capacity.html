@@ -1,0 +1,195 @@
+{% extends "layout.html" %}
+
+{% block title %}Capacity Management - Pressly{% endblock %}
+
+{% block content %}
+<section class="capacity-section">
+    <div class="container">
+        <div class="section-header">
+            <h1>Capacity Management</h1>
+        </div>
+        
+        <div class="card mb-4">
+            <h2>Current Capacity Status</h2>
+            <div class="capacity-overview">
+                <div class="capacity-meter">
+                    <div class="capacity-label">Overall Capacity</div>
+                    <div class="capacity-bar-wrapper">
+                        <div class="capacity-bar" style="width: 75%"></div>
+                        <span class="capacity-value">75%</span>
+                    </div>
+                </div>
+                <div class="capacity-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Available Hours:</span>
+                        <span class="stat-value">48 hrs/week</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Booked Hours:</span>
+                        <span class="stat-value">36 hrs/week</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Next Available Date:</span>
+                        <span class="stat-value">April 18, 2025</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <h2>Update Capacity</h2>
+            <form method="POST" action="{{ url_for('capacity') }}">
+                <div class="form-group">
+                    <label for="weekly_capacity">Weekly Capacity (hours)</label>
+                    <input type="number" id="weekly_capacity" name="weekly_capacity" value="48" min="1" max="168">
+                </div>
+                
+                <div class="form-group">
+                    <label for="production_schedule">Production Schedule</label>
+                    <div class="schedule-grid">
+                        <div class="schedule-day">
+                            <h4>Monday</h4>
+                            <div class="time-range">
+                                <label for="monday_start">Start</label>
+                                <input type="time" id="monday_start" name="monday_start" value="09:00">
+                            </div>
+                            <div class="time-range">
+                                <label for="monday_end">End</label>
+                                <input type="time" id="monday_end" name="monday_end" value="17:00">
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-day">
+                            <h4>Tuesday</h4>
+                            <div class="time-range">
+                                <label for="tuesday_start">Start</label>
+                                <input type="time" id="tuesday_start" name="tuesday_start" value="09:00">
+                            </div>
+                            <div class="time-range">
+                                <label for="tuesday_end">End</label>
+                                <input type="time" id="tuesday_end" name="tuesday_end" value="17:00">
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-day">
+                            <h4>Wednesday</h4>
+                            <div class="time-range">
+                                <label for="wednesday_start">Start</label>
+                                <input type="time" id="wednesday_start" name="wednesday_start" value="09:00">
+                            </div>
+                            <div class="time-range">
+                                <label for="wednesday_end">End</label>
+                                <input type="time" id="wednesday_end" name="wednesday_end" value="17:00">
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-day">
+                            <h4>Thursday</h4>
+                            <div class="time-range">
+                                <label for="thursday_start">Start</label>
+                                <input type="time" id="thursday_start" name="thursday_start" value="09:00">
+                            </div>
+                            <div class="time-range">
+                                <label for="thursday_end">End</label>
+                                <input type="time" id="thursday_end" name="thursday_end" value="17:00">
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-day">
+                            <h4>Friday</h4>
+                            <div class="time-range">
+                                <label for="friday_start">Start</label>
+                                <input type="time" id="friday_start" name="friday_start" value="09:00">
+                            </div>
+                            <div class="time-range">
+                                <label for="friday_end">End</label>
+                                <input type="time" id="friday_end" name="friday_end" value="17:00">
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-day">
+                            <h4>Saturday</h4>
+                            <div class="time-range">
+                                <label for="saturday_start">Start</label>
+                                <input type="time" id="saturday_start" name="saturday_start" value="">
+                            </div>
+                            <div class="time-range">
+                                <label for="saturday_end">End</label>
+                                <input type="time" id="saturday_end" name="saturday_end" value="">
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-day">
+                            <h4>Sunday</h4>
+                            <div class="time-range">
+                                <label for="sunday_start">Start</label>
+                                <input type="time" id="sunday_start" name="sunday_start" value="">
+                            </div>
+                            <div class="time-range">
+                                <label for="sunday_end">End</label>
+                                <input type="time" id="sunday_end" name="sunday_end" value="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="equipment_status">Equipment Status</label>
+                    <select id="equipment_status" name="equipment_status">
+                        <option value="fully_operational">Fully Operational</option>
+                        <option value="partially_operational">Partially Operational</option>
+                        <option value="maintenance_required">Maintenance Required</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="capacity_notes">Notes</label>
+                    <textarea id="capacity_notes" name="capacity_notes" rows="4" placeholder="Add any additional information about your production capacity or limitations..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn">Update Capacity</button>
+            </form>
+        </div>
+        
+        <div class="card">
+            <h2>Booked Production Time</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Design</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Hours Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#12345</td>
+                            <td>Summer T-Shirt Design</td>
+                            <td>2025-04-16</td>
+                            <td>2025-04-16</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>#12346</td>
+                            <td>Corporate Brochure</td>
+                            <td>2025-04-15</td>
+                            <td>2025-04-15</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>#12347</td>
+                            <td>Exhibition Banner</td>
+                            <td>2025-04-15</td>
+                            <td>2025-04-15</td>
+                            <td>4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+
+{% block title %}Find Producers - Pressly{% endblock %}
+
+{% block content %}
+<section class="producers-section">
+    <div class="container">
+        <div class="section-header">
+            <h1>Find Print Producers</h1>
+        </div>
+        
+        <div class="search-filters mb-4">
+            <div class="search-container">
+                <input type="text" id="producer-search" placeholder="Search producers...">
+            </div>
+            <div class="filter-container">
+                <select id="capability-filter">
+                    <option value="all">All Capabilities</option>
+                    <option value="digital">Digital Printing</option>
+                    <option value="offset">Offset Printing</option>
+                    <option value="large-format">Large Format</option>
+                    <option value="textile">Textile Printing</option>
+                    <option value="3d">3D Printing</option>
+                    <option value="specialty">Specialty</option>
+                </select>
+            </div>
+            <div class="filter-container">
+                <select id="location-filter">
+                    <option value="all">All Locations</option>
+                    <option value="local">Within 50 miles</option>
+                    <option value="region">Within 200 miles</option>
+                    <option value="country">Nationwide</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="producers-grid grid">
+            <!-- Sample producers for the MVP demo -->
+            <div class="producer-card card">
+                <div class="producer-header">
+                    <h3 class="producer-name">PrintMasters Inc.</h3>
+                    <div class="producer-rating">
+                        <span><i class="fas fa-star"></i> 4.9</span>
+                        <span class="rating-count">(42 reviews)</span>
+                    </div>
+                </div>
+                <p class="producer-capabilities">
+                    Full-service commercial printing. Digital, offset, and large format capabilities. Specializing in high-volume production with quick turnaround times.
+                </p>
+                <div class="producer-capacity">
+                    <div class="capacity-label">Current Availability</div>
+                    <div class="capacity-bar-wrapper">
+                        <div class="capacity-bar" style="width: 65%"></div>
+                        <span class="capacity-value">65%</span>
+                    </div>
+                </div>
+                <div class="producer-meta">
+                    <div class="producer-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Chicago, IL</span>
+                    </div>
+                    <div class="producer-joined">
+                        <i class="fas fa-calendar"></i>
+                        <span>Joined: 2025-01-15</span>
+                    </div>
+                </div>
+                <div class="producer-actions">
+                    <a href="#" class="btn btn-sm">View Profile</a>
+                    <a href="#" class="btn btn-sm btn-secondary">Contact</a>
+                </div>
+            </div>
+            
+            <div class="producer-card card">
+                <div class="producer-header">
+                    <h3 class="producer-name">Eco Printing Solutions</h3>
+                    <div class="producer-rating">
+                        <span><i class="fas fa-star"></i> 4.8</span>
+                        <span class="rating-count">(36 reviews)</span>
+                    </div>
+                </div>
+                <p class="producer-capabilities">
+                    Sustainable and eco-friendly printing services. Using recycled materials and soy-based inks. Carbon-neutral operations certified.
+                </p>
+                <div class="producer-capacity">
+                    <div class="capacity-label">Current Availability</div>
+                    <div class="capacity-bar-wrapper">
+                        <div class="capacity-bar" style="width: 40%"></div>
+                        <span class="capacity-value">40%</span>
+                    </div>
+                </div>
+                <div class="producer-meta">
+                    <div class="producer-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Portland, OR</span>
+                    </div>
+                    <div class="producer-joined">
+                        <i class="fas fa-calendar"></i>
+                        <span>Joined: 2025-02-03</span>
+                    </div>
+                </div>
+                <div class="producer-actions">
+                    <a href="#" class="btn btn-sm">View Profile</a>
+                    <a href="#" class="btn btn-sm btn-secondary">Contact</a>
+                </div>
+            </div>
+            
+            <div class="producer-card card">
+                <div class="producer-header">
+                    <h3 class="producer-name">Textile Printing Experts</h3>
+                    <div class="producer-rating">
+                        <span><i class="fas fa-star"></i> 4.7</span>
+                        <span class="rating-count">(29 reviews)</span>
+                    </div>
+                </div>
+                <p class="producer-capabilities">
+                    Specialized in garment and fabric printing. Screen printing, direct-to-garment, sublimation, and embroidery services available.
+                </p>
+                <div class="producer-capacity">
+                    <div class="capacity-label">Current Availability</div>
+                    <div class="capacity-bar-wrapper">
+                        <div class="capacity-bar" style="width: 75%"></div>
+                        <span class="capacity-value">75%</span>
+                    </div>
+                </div>
+                <div class="producer-meta">
+                    <div class="producer-location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Los Angeles, CA</span>
+                    </div>
+                    <div class="producer-joined">
+                        <i class="fas fa-calendar"></i>
+                        <span>Joined: 2025-01-22</span>
+                    </div>
+                </div>
+                <div class="producer-actions">
+                    <a href="#" class="btn btn-sm">View Profile</a>
+                    <a href="#" class="btn btn-sm btn-secondary">Contact</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

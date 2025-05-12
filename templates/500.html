@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}Server Error - Pressly{% endblock %}
+
+{% block content %}
+<section class="error-section">
+    <div class="container text-center">
+        <div class="error-container">
+            <div class="error-code">500</div>
+            <h1>Server Error</h1>
+            <p>Something went wrong on our end. Please try again later.</p>
+            <a href="{{ url_for('index') }}" class="btn">Go Back Home</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

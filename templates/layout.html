@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pressly - Connect Designers and Print Producers{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/designs.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <a href="{{ url_for('index') }}" class="logo">Pressly</a>
+                <ul class="nav-links" id="nav-links">
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <!-- Navigation links will be updated by JavaScript based on login status -->
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="container">
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Pressly</h3>
+                    <p>Connecting designers with print producers for seamless collaboration.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>Email: info@pressly.com</p>
+                    <p>Phone: (123) 456-7890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Pressly. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Check if user is logged in and update navigation links
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Layout loaded - checking user login status");
+            
+            const navLinks = document.getElementById('nav-links');
+            if (!navLinks) {
+                console.error("Navigation links element not found");
+                return;
+            }
+            
+            try {
+                // Get current user from localStorage
+                const userJson = localStorage.getItem('presslyCurrentUser');
+                console.log("User from localStorage:", userJson);
+                
+                if (!userJson) {
+                    console.log("No user found - showing guest navigation");
+                    // User is not logged in
+                    navLinks.innerHTML = `
+                        <li><a href="{{ url_for('index') }}">Home</a></li>
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                        <li><a href="{{ url_for('register') }}" class="btn">Sign Up</a></li>
+                    `;
+                    return;
+                }
+                
+                // Parse user data
+                const currentUser = JSON.parse(userJson);
+                console.log("User parsed:", currentUser);
+                
+                // Check user type
+                const userType = currentUser.userType || currentUser.user_type;
+                console.log("User type:", userType);
+                
+                // User is logged in
+                let navHTML = '<li><a href="{{ url_for("index") }}">Home</a></li>';
+                
+                if (userType === 'designer') {
+                    navHTML += `
+                        <li><a href="{{ url_for('designer_dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ url_for('designs') }}">My Designs</a></li>
+                        <li><a href="{{ url_for('producers') }}">Find Producers</a></li>
+                    `;
+                } else if (userType === 'producer') {
+                    navHTML += `
+                        <li><a href="{{ url_for('producer_dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ url_for('capacity') }}">My Capacity</a></li>
+                    `;
+                }
+                
+                navHTML += `
+                    <li><a href="{{ url_for('messages') }}">Messages</a></li>
+                    <li><a href="#" id="logout-link">Logout</a></li>
+                `;
+                
+                navLinks.innerHTML = navHTML;
+                console.log("Set navigation for logged-in user:", userType);
+                
+                // Add logout functionality
+                const logoutLink = document.getElementById('logout-link');
+                if (logoutLink) {
+                    logoutLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        console.log("Logout clicked - removing user from localStorage");
+                        localStorage.removeItem('presslyCurrentUser');
+                        window.location.href = '{{ url_for("index") }}';
+                    });
+                }
+            } catch (error) {
+                console.error("Error updating navigation:", error);
+                // Set default navigation for guests in case of error
+                navLinks.innerHTML = `
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    <li><a href="{{ url_for('register') }}" class="btn">Sign Up</a></li>
+                `;
+            }
+        });
+    </script>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

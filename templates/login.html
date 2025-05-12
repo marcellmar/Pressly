@@ -1,0 +1,181 @@
+{% extends "layout.html" %}
+
+{% block title %}Login - Pressly{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-container">
+            <h1 class="text-center mb-4">Log In to Your Account</h1>
+            <div class="card">
+                <form id="login-form" method="POST">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    
+                    <div id="login-error" class="flash flash-danger" style="display: none;"></div>
+                    <div id="login-success" class="flash flash-success" style="display: none;"></div>
+                    
+                    <button type="submit" class="btn btn-block">Log In</button>
+                </form>
+                
+                <div class="auth-links text-center mt-3">
+                    <p>Don't have an account? <a href="{{ url_for('register') }}">Sign Up</a></p>
+                    <p><a href="#">Forgot Password?</a></p>
+                </div>
+                
+                <!-- Demo Accounts Information -->
+                <div class="demo-accounts mt-4">
+                    <h4 class="text-center mb-2">Demo Accounts</h4>
+                    <div class="flash" style="background-color: #e6f2ff; color: #3a6ea5; border: 1px solid #b8daff;">
+                        <strong>Designer:</strong> designer@example.com / password123<br>
+                        <strong>Producer:</strong> producer@example.com / password123
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Login page loaded");
+        
+        // Initialize demo users if they don't exist
+        initializeDemoUsers();
+        
+        // Get the login form
+        const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('login-error');
+        const successMessage = document.getElementById('login-success');
+        
+        if (!loginForm) {
+            console.error("Login form not found!");
+            return;
+        }
+        
+        // Add submit event listener
+        loginForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            console.log("Login form submitted");
+            
+            // Clear previous messages
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+            
+            // Get form data
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            console.log("Attempting login for:", email);
+            
+            try {
+                // Get users from localStorage
+                const usersJson = localStorage.getItem('presslyUsers');
+                console.log("Users in localStorage:", usersJson);
+                
+                const users = JSON.parse(usersJson) || [];
+                
+                // Find user with matching email
+                const user = users.find(u => u.email === email);
+                
+                if (user) {
+                    console.log("User found:", user.email);
+                    
+                    if (user.password === password) {
+                        console.log("Password match - login successful");
+                        
+                        // Set session in localStorage
+                        const sessionData = {
+                            id: user.id,
+                            email: user.email,
+                            fullName: user.fullName || user.full_name,
+                            userType: user.userType || user.user_type,
+                            businessName: user.businessName
+                        };
+                        
+                        localStorage.setItem('presslyCurrentUser', JSON.stringify(sessionData));
+                        
+                        // Show success message
+                        successMessage.textContent = "Login successful! Redirecting...";
+                        successMessage.style.display = 'block';
+                        
+                        // Redirect based on user type
+                        setTimeout(function() {
+                            const userType = user.userType || user.user_type;
+                            if (userType === 'designer') {
+                                window.location.href = '{{ url_for("designer_dashboard") }}';
+                            } else {
+                                window.location.href = '{{ url_for("producer_dashboard") }}';
+                            }
+                        }, 1000);
+                    } else {
+                        console.log("Password mismatch");
+                        // Show error message
+                        errorMessage.textContent = 'Invalid email or password';
+                        errorMessage.style.display = 'block';
+                    }
+                } else {
+                    console.log("User not found");
+                    // Show error message
+                    errorMessage.textContent = 'Invalid email or password';
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                console.error("Error during login:", error);
+                errorMessage.textContent = 'An error occurred. Please try again.';
+                errorMessage.style.display = 'block';
+            }
+        });
+        
+        // Function to initialize demo users
+        function initializeDemoUsers() {
+            try {
+                // Check if users already exist in localStorage
+                const existingUsers = JSON.parse(localStorage.getItem('presslyUsers')) || [];
+                
+                if (existingUsers.length === 0) {
+                    console.log("Creating demo users");
+                    
+                    // Create demo users
+                    const demoUsers = [
+                        {
+                            id: 'user_demo_1',
+                            email: 'designer@example.com',
+                            password: 'password123',
+                            fullName: 'Demo Designer',
+                            userType: 'designer',
+                            createdAt: new Date().toISOString()
+                        },
+                        {
+                            id: 'user_demo_2',
+                            email: 'producer@example.com',
+                            password: 'password123',
+                            fullName: 'Demo Producer',
+                            userType: 'producer',
+                            businessName: 'Demo Print Shop',
+                            createdAt: new Date().toISOString()
+                        }
+                    ];
+                    
+                    // Save to localStorage
+                    localStorage.setItem('presslyUsers', JSON.stringify(demoUsers));
+                    console.log("Demo users created successfully");
+                } else {
+                    console.log("Users already exist in localStorage");
+                }
+            } catch (error) {
+                console.error("Error initializing demo users:", error);
+            }
+        }
+    });
+</script>
+{% endblock %}

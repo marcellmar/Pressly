@@ -1,0 +1,34 @@
+/* Header Styles */
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
+  padding: 0.25rem 0.5rem;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.user-name {
+  margin-right: 0.75rem;
+  font-weight: 500;
+  color: var(--primary);
+}
+
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 768px) {
+  .user-menu {
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: transparent;
+    padding: 0;
+  }
+  
+  .user-name {
+    margin-bottom: 0.5rem;
+  }
+}

@@ -1,0 +1,501 @@
+/* Producers Page Styling */
+
+.producers-section {
+  padding: 2rem 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  background-color: var(--primary, #3a6ea5);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-secondary {
+  background-color: var(--secondary, #ff6b6b);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--primary, #3a6ea5);
+  border: 1px solid var(--primary, #3a6ea5);
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow: auto;
+  padding: 2rem;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Map specific styles */
+.map-container, .chicago-map-container .map-container {
+  height: 400px;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  position: sticky;
+  top: 20px;
+}
+
+.mini-map-container {
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.custom-marker-icon {
+  background: transparent;
+  border: none;
+}
+
+.map-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.legend-item:last-child {
+  margin-right: 0;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.legend-color.high {
+  background-color: #28a745;
+}
+
+.legend-color.medium {
+  background-color: #ffc107;
+}
+
+.legend-color.low {
+  background-color: #dc3545;
+}
+
+.legend-icon.eco {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-right: 5px;
+  background-color: #28a745;
+  position: relative;
+}
+
+.legend-icon.eco::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  background: #28a745;
+  border-radius: 50%;
+}
+
+/* Filter controls */
+.filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.filter-section {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.filter-control {
+  flex: 1;
+  min-width: 250px;
+}
+
+.filter-select {
+  padding: 0.75rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+/* Availability indicator */
+.availability-indicator {
+  height: 10px;
+  background-color: #e9ecef;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.availability-bar {
+  height: 100%;
+}
+
+.availability-bar.high {
+  background-color: #28a745;
+}
+
+.availability-bar.medium {
+  background-color: #ffc107;
+}
+
+.availability-bar.low {
+  background-color: #dc3545;
+}
+
+/* Specialty tags */
+.specialty-tag {
+  background-color: #f8f9fa;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+}
+
+/* FEATURE #1: Dynamic Distance Radius Slider */
+.radius-slider-container {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.radius-slider {
+  width: 100%;
+  margin: 10px 0;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: #e9ecef;
+  border-radius: 5px;
+  outline: none;
+}
+
+.radius-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary, #3a6ea5);
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.radius-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--primary, #3a6ea5);
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.radius-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* FEATURE #2: Production Technique Badges */
+.technique-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.technique-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  color: white;
+  font-weight: 500;
+}
+
+.technique-badge i {
+  margin-right: 4px;
+  font-size: 0.8rem;
+}
+
+.technique-badge-lg {
+  padding: 0.5rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.technique-badge-lg i {
+  font-size: 1rem;
+}
+
+/* FEATURE #3: Quick Quote Request */
+.producer-selection {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.producer-selection input[type="checkbox"] {
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.producer-selection label {
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.bulk-action-container {
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border: 2px solid var(--primary, #3a6ea5);
+  text-align: center;
+}
+
+.bulk-quote-btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: var(--primary, #3a6ea5);
+}
+
+.bulk-quote-btn i {
+  margin-right: 0.5rem;
+}
+
+.quote-badge {
+  display: inline-block;
+  background-color: var(--primary, #3a6ea5);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  margin-left: 0.75rem;
+  vertical-align: middle;
+}
+
+.selected-producers-list {
+  margin-bottom: 1.5rem;
+}
+
+.selected-producer-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.producer-chip {
+  display: flex;
+  align-items: center;
+  background-color: #f0f2f5;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.remove-producer {
+  background: none;
+  border: none;
+  color: #666;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.quote-message {
+  background-color: #f8f9fa;
+  border-left: 4px solid var(--primary, #3a6ea5);
+  padding: 0.75rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.quote-message i {
+  color: var(--primary, #3a6ea5);
+  font-size: 1.2rem;
+}
+
+.quote-message p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  color: #ddd;
+  margin-bottom: 1rem;
+}
+
+.producer-capabilities, .producer-description {
+  margin-bottom: 1rem;
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Chicago Print Producers Map Specific Styles */
+.chicago-map-container {
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+}
+
+.chicago-map-container .section-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.chicago-map-container .section-header h2 {
+  color: var(--primary, #3a6ea5);
+  margin-bottom: 0.5rem;
+}
+
+.chicago-map-container .section-header p {
+  color: #666;
+}
+
+.producer-details {
+  margin-bottom: 1rem;
+}
+
+.producer-detail {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.producer-detail i {
+  width: 20px;
+  color: var(--primary, #3a6ea5);
+  margin-right: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .map-container, .chicago-map-container .map-container {
+    height: 300px;
+    position: static;
+  }
+  
+  .modal-content {
+    padding: 1.5rem;
+  }
+
+  .filter-section {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .map-container, .chicago-map-container .map-container {
+    height: 250px;
+  }
+  
+  .mini-map-container {
+    height: 150px;
+  }
+  
+  .technique-badges {
+    gap: 0.3rem;
+  }
+  
+  .technique-badge {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+  }
+}

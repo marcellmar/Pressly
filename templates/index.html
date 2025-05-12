@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1>Connect. Create. Print.</h1>
+        <p>Pressly is revolutionizing the printing industry by connecting designers with local print producers. Find the perfect match for your project and streamline your production process.</p>
+        <div>
+            <a href="{{ url_for('register') }}" class="btn btn-lg">Get Started</a>
+            <a href="#how-it-works" class="btn btn-outline btn-lg">Learn More</a>
+        </div>
+    </div>
+</section>
+
+<section id="how-it-works" class="features">
+    <div class="container">
+        <h2 class="text-center mb-4">How It Works</h2>
+        <div class="grid">
+            <div class="feature-card card">
+                <div class="feature-icon">
+                    <i class="fas fa-pencil-alt"></i>
+                </div>
+                <h3>For Designers</h3>
+                <p>Upload your designs, set your requirements, and get matched with the perfect producer. Track your project from start to finish with real-time updates.</p>
+            </div>
+            <div class="feature-card card">
+                <div class="feature-icon">
+                    <i class="fas fa-print"></i>
+                </div>
+                <h3>For Producers</h3>
+                <p>Showcase your capabilities, manage your capacity, and connect with designers looking for your expertise. Grow your business with a steady stream of projects.</p>
+            </div>
+            <div class="feature-card card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Better Together</h3>
+                <p>Experience the power of our network. As more designers and producers join, matching becomes more precise, and everyone benefits from improved efficiency.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="benefits">
+    <div class="container">
+        <h2 class="text-center mb-4">Why Choose Pressly?</h2>
+        <div class="grid">
+            <div class="card">
+                <h3><i class="fas fa-search"></i> Find The Perfect Match</h3>
+                <p>Our intelligent matching system connects designers with producers who have the exact capabilities needed for each project.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-bolt"></i> Real-Time Updates</h3>
+                <p>Track your projects from design to delivery with real-time status updates and seamless communication.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-star"></i> Quality Assurance</h3>
+                <p>Our standardized quality metrics ensure consistent results across all producers in our network.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-dollar-sign"></i> Transparent Pricing</h3>
+                <p>No more guessing games. Get clear, upfront pricing for all your printing needs.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-tasks"></i> Efficient Workflows</h3>
+                <p>Streamline your production process with integrated communication and project management tools.</p>
+            </div>
+            <div class="card">
+                <h3><i class="fas fa-globe"></i> Local Production</h3>
+                <p>Support local businesses and reduce shipping times and costs by connecting with nearby producers.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="container text-center">
+        <h2>Ready to Transform Your Printing Experience?</h2>
+        <p class="mb-3">Join the Pressly community and start enjoying the benefits of our distributed printing marketplace.</p>
+        <a href="{{ url_for('register') }}" class="btn btn-lg">Sign Up Now</a>
+    </div>
+</section>
+{% endblock %}

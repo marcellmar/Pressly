@@ -1,0 +1,111 @@
+.tooltip-root {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-trigger {
+  display: inline-block;
+}
+
+.tooltip {
+  position: fixed;
+  background-color: #333;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  z-index: 1000;
+  max-width: 250px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  white-space: normal;
+  word-wrap: break-word;
+  animation: tooltipFadeIn 0.2s ease-in-out;
+  line-height: 1.5;
+}
+
+@keyframes tooltipFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  border-width: 5px;
+  border-style: solid;
+}
+
+.tooltip-top::after {
+  border-color: #333 transparent transparent transparent;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+}
+
+.tooltip-bottom::after {
+  border-color: transparent transparent #333 transparent;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+}
+
+.tooltip-left::after {
+  border-color: transparent transparent transparent #333;
+  top: 50%;
+  right: -10px;
+  margin-top: -5px;
+}
+
+.tooltip-right::after {
+  border-color: transparent #333 transparent transparent;
+  top: 50%;
+  left: -10px;
+  margin-top: -5px;
+}
+
+/* Themed tooltips */
+.tooltip.tooltip-blue {
+  background-color: #3a6ea5;
+  color: white;
+}
+.tooltip.tooltip-blue.tooltip-top::after {
+  border-color: #3a6ea5 transparent transparent transparent;
+}
+.tooltip.tooltip-blue.tooltip-bottom::after {
+  border-color: transparent transparent #3a6ea5 transparent;
+}
+.tooltip.tooltip-blue.tooltip-left::after {
+  border-color: transparent transparent transparent #3a6ea5;
+}
+.tooltip.tooltip-blue.tooltip-right::after {
+  border-color: transparent #3a6ea5 transparent transparent;
+}
+
+.tooltip.tooltip-green {
+  background-color: #28a745;
+  color: white;
+}
+.tooltip.tooltip-green.tooltip-top::after {
+  border-color: #28a745 transparent transparent transparent;
+}
+.tooltip.tooltip-green.tooltip-bottom::after {
+  border-color: transparent transparent #28a745 transparent;
+}
+.tooltip.tooltip-green.tooltip-left::after {
+  border-color: transparent transparent transparent #28a745;
+}
+.tooltip.tooltip-green.tooltip-right::after {
+  border-color: transparent #28a745 transparent transparent;
+}

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pressly - Connect Designers and Print Producers{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/designs.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body class="has-sidebar">
+    <div class="app-container">
+        <!-- Mobile menu toggle -->
+        <button id="menu-toggle" class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <!-- Sidebar -->
+        {% include 'components/sidebar.html' %}
+        
+        <!-- Main content -->
+        <div class="main-content">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="container">
+                        {% for category, message in messages %}
+                            <div class="flash flash-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+    
+    <script>
+        // Check if user is logged in and update sidebar
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // Get current user from localStorage
+                const userJson = localStorage.getItem('presslyCurrentUser');
+                
+                if (!userJson) {
+                    console.log("No user found - redirecting to login");
+                    window.location.href = '{{ url_for("login") }}';
+                    return;
+                }
+                
+                // Parse user data
+                const currentUser = JSON.parse(userJson);
+                console.log("User parsed:", currentUser);
+                
+                // Check user type
+                const userType = currentUser.userType || currentUser.user_type;
+                console.log("User type:", userType);
+                
+                // Handle logout
+                const logoutLink = document.getElementById('logout-sidebar-link');
+                if (logoutLink) {
+                    logoutLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        console.log("Logout clicked - removing user from localStorage");
+                        localStorage.removeItem('presslyCurrentUser');
+                        window.location.href = '{{ url_for("index") }}';
+                    });
+                }
+                
+                // Mobile menu toggle
+                const menuToggle = document.getElementById('menu-toggle');
+                const sidebar = document.querySelector('.sidebar');
+                
+                if (menuToggle && sidebar) {
+                    menuToggle.addEventListener('click', function() {
+                        sidebar.classList.toggle('open');
+                    });
+                    
+                    // Close sidebar when clicking outside
+                    document.addEventListener('click', function(e) {
+                        if (!sidebar.contains(e.target) && e.target !== menuToggle) {
+                            sidebar.classList.remove('open');
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error("Error updating sidebar:", error);
+                // Redirect to login in case of error
+                window.location.href = '{{ url_for("login") }}';
+            }
+        });
+    </script>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

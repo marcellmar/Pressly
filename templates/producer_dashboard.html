@@ -1,0 +1,153 @@
+{% extends "layout.html" %}
+
+{% block title %}Producer Dashboard - Pressly{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Producer Dashboard</h1>
+            <a href="{{ url_for('capacity') }}" class="btn">Update Capacity</a>
+        </div>
+        
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <h3>75%</h3>
+                <p>Current Capacity</p>
+            </div>
+            <div class="stat-card">
+                <h3>8</h3>
+                <p>Active Orders</p>
+            </div>
+            <div class="stat-card">
+                <h3>24</h3>
+                <p>Completed Orders</p>
+            </div>
+            <div class="stat-card">
+                <h3>4.9</h3>
+                <p>Average Rating</p>
+            </div>
+        </div>
+        
+        <div class="dashboard-section">
+            <h2>Current Orders</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Designer</th>
+                            <th>Design</th>
+                            <th>Status</th>
+                            <th>Due Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#12345</td>
+                            <td>John Smith</td>
+                            <td>Summer T-Shirt Design</td>
+                            <td><span class="status-badge status-info">In Production</span></td>
+                            <td>2025-04-08</td>
+                            <td><a href="#" class="btn btn-sm">Update</a></td>
+                        </tr>
+                        <tr>
+                            <td>#12346</td>
+                            <td>Sarah Johnson</td>
+                            <td>Corporate Brochure</td>
+                            <td><span class="status-badge status-warning">Pending</span></td>
+                            <td>2025-04-15</td>
+                            <td><a href="#" class="btn btn-sm">Update</a></td>
+                        </tr>
+                        <tr>
+                            <td>#12347</td>
+                            <td>Creative Studios</td>
+                            <td>Exhibition Banner</td>
+                            <td><span class="status-badge status-info">Materials Ordered</span></td>
+                            <td>2025-04-20</td>
+                            <td><a href="#" class="btn btn-sm">Update</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="dashboard-section">
+            <h2>Production Schedule</h2>
+            <div class="production-calendar">
+                <!-- Simplified schedule view for MVP -->
+                <div class="schedule-day card">
+                    <div class="schedule-date">April 15, 2025</div>
+                    <div class="schedule-items">
+                        <div class="schedule-item">
+                            <span class="time">9:00 AM - 1:00 PM</span>
+                            <span class="task">Corporate Brochure (#12346)</span>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="time">2:00 PM - 6:00 PM</span>
+                            <span class="task">Exhibition Banner (#12347)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="schedule-day card">
+                    <div class="schedule-date">April 16, 2025</div>
+                    <div class="schedule-items">
+                        <div class="schedule-item">
+                            <span class="time">9:00 AM - 5:00 PM</span>
+                            <span class="task">Summer T-Shirt Production (#12345)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Producer dashboard loaded");
+        
+        try {
+            // Check if user is logged in as a producer
+            const userJson = localStorage.getItem('presslyCurrentUser');
+            console.log("Current user from localStorage:", userJson);
+            
+            if (!userJson) {
+                console.log("No user found in localStorage");
+                window.location.href = '{{ url_for("login") }}';
+                return;
+            }
+            
+            const currentUser = JSON.parse(userJson);
+            console.log("User parsed:", currentUser);
+            
+            // Check if user is a producer
+            const userType = currentUser.userType || currentUser.user_type;
+            console.log("User type:", userType);
+            
+            if (userType !== 'producer') {
+                console.log("User is not a producer, redirecting to login");
+                window.location.href = '{{ url_for("login") }}';
+                return;
+            }
+            
+            // Update dashboard header with business name
+            const dashboardHeader = document.querySelector('.dashboard-header h1');
+            if (dashboardHeader) {
+                const businessName = currentUser.businessName || 
+                                     (currentUser.fullName || currentUser.full_name) + "'s Business";
+                dashboardHeader.textContent = `${businessName} Dashboard`;
+            }
+            
+            console.log("Producer dashboard initialized successfully");
+        } catch (error) {
+            console.error("Error in producer dashboard:", error);
+            // Redirect to login in case of error
+            window.location.href = '{{ url_for("login") }}';
+        }
+    });
+</script>
+{% endblock %}

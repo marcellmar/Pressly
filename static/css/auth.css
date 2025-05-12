@@ -1,0 +1,130 @@
+/* Auth-specific styling for Pressly */
+
+.auth-section {
+  padding: 4rem 0;
+  background: linear-gradient(to right, #e0eafc, #cfdef3);
+  min-height: calc(100vh - 300px); /* Account for header and footer */
+  display: flex;
+  align-items: center;
+}
+
+.auth-container {
+  max-width: 500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.auth-container h1 {
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+}
+
+.auth-container .card {
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+}
+
+.auth-container .form-group label {
+  color: var(--dark);
+  font-weight: 600;
+}
+
+.auth-container input, 
+.auth-container select, 
+.auth-container textarea {
+  border: 1px solid #e0e0e0;
+  padding: 0.75rem 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.auth-container input:focus, 
+.auth-container select:focus, 
+.auth-container textarea:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(58, 110, 165, 0.1);
+}
+
+.auth-container .btn {
+  padding: 0.75rem;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+.auth-links {
+  margin-top: 1.5rem;
+}
+
+.auth-links p {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+.auth-links a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.auth-links a:hover {
+  color: #2c5282;
+  text-decoration: underline;
+}
+
+/* Flash messages in auth forms */
+.auth-container .flash {
+  margin-top: 1rem;
+  border-radius: 6px;
+  padding: 1rem;
+  font-size: 0.9rem;
+}
+
+/* Producer fields animation */
+#producer_fields {
+  transition: all 0.3s ease;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+#producer_fields.visible {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 1rem;
+}
+
+/* Password strength indicator */
+.password-strength {
+  height: 4px;
+  margin-top: 0.5rem;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.strength-weak {
+  background-color: var(--danger);
+  width: 30%;
+}
+
+.strength-medium {
+  background-color: var(--warning);
+  width: 60%;
+}
+
+.strength-strong {
+  background-color: var(--success);
+  width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .auth-section {
+    padding: 2rem 0;
+  }
+  
+  .auth-container .card {
+    padding: 1.5rem;
+  }
+}
