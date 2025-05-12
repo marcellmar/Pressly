@@ -21,6 +21,12 @@ import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '../components/ui/card';
+import CanvasFilePreview from '../components/SmartMatch/CanvasFilePreview';
+import CanvasDesignAnalyzer from '../components/SmartMatch/CanvasDesignAnalyzer';
+import FileUploader from '../components/SmartMatch/FileUploader';
+import EcoMatchResults from '../components/SmartMatch/EcoMatchResults';
+import IndexedDBService from '../services/storage/indexedDBService';
+import { extractProjectRequirements, findEcoLeanMatches } from '../services/ecoLeanMatch/ecoLeanMatchAlgorithm';
 
 // Error Boundary component to catch errors in rendering
 class ErrorBoundary extends Component {
@@ -51,20 +57,6 @@ class ErrorBoundary extends Component {
     return this.props.children;
   }
 }
-
-// Import Canvas components
-import CanvasFilePreview from '../components/SmartMatch/CanvasFilePreview';
-import CanvasDesignAnalyzer from '../components/SmartMatch/CanvasDesignAnalyzer';
-
-// Original SmartMatch components
-import FileUploader from '../components/SmartMatch/FileUploader';
-import EcoMatchResults from '../components/SmartMatch/EcoMatchResults';
-
-// IndexedDB service
-import IndexedDBService from '../services/storage/indexedDBService';
-
-// Import the EcoLeanMatch algorithm
-import { extractProjectRequirements, findEcoLeanMatches } from '../services/ecoLeanMatch/ecoLeanMatchAlgorithm';
 
 const SmartMatch = () => {
   const navigate = useNavigate();
