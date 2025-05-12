@@ -162,7 +162,7 @@ function App() {
   return (
     <AppLayout>
       <ThemeProvider>
-      <Router>
+      <Router basename="/">
         <Routes>
           {/* Public routes with main layout - Home page with hidden top banner */}
           <Route path="/" element={
