@@ -1,0 +1,17 @@
+# Ignore all Python files in the root directory
+*.py
+!api/*.py
+
+# Ignore original requirements files
+requirements.txt
+vercel-requirements.txt
+
+# Ignore unnecessary directories
+__pycache__
+.pytest_cache
+.venv
+venv
+env
+node_modules_backup
+node_modules_backup_*
+static_fallback

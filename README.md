@@ -57,13 +57,32 @@ If you prefer using npm directly:
 NODE_OPTIONS='--max-old-space-size=4096' npm start
 ```
 
-### Troubleshooting
+## Vercel Deployment Instructions
 
-If the application still freezes on startup:
+This application uses a hybrid approach for Vercel deployment:
 
-1. Try closing other memory-intensive applications
-2. Restart your computer to clear memory
-3. Consider increasing the memory limit in `start.sh` if your system has more RAM available
+1. The React frontend is built using `npm run build` and served from the `build` directory
+2. The API backend is a simplified Flask app in the `api` directory that only uses minimal dependencies
+
+### Deployment Steps
+
+1. Push code to GitHub
+2. Connect to Vercel and select the repository
+3. Use the following settings:
+   - Framework Preset: Other
+   - Build Command: `npm run build`
+   - Output Directory: `build`
+   - Install Command: `npm install`
+
+The configuration in `vercel.json` handles routing:
+- Frontend requests are served from the static build directory
+- API requests are routed to the Flask app in the `api` directory
+
+### API Features
+
+The simplified API provides mock data for basic functionality:
+- `/api/health` - Status check
+- `/api/producers` - List of producers
 
 ## Development
 
