@@ -1,15 +1,15 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import './styles/global.css';
-import './styles/pressly-theme.css'; // Import our theme
-import './styles/dark-mode.css'; // Import dark mode theme
-import './styles/dashboard.css'; // Import dashboard styles
-import './styles/settings.css'; // Import settings styles
+import './styles/notion-modern.css'; // Notion-inspired modern design system
+import './styles/notion-overrides.css'; // Apply Notion style to all components
 import { Toast } from './components/ui/toast';
 
+// Import Interface Router for ZUO integration
+import InterfaceRouter from './components/InterfaceRouter';
+import CreatePage from './components/CreatePage';
+
 // Import Layout Components
-import MainLayout from './components/layout/MainLayout';
-import DashboardLayout from './components/layout/DashboardLayout';
+import ModernLayout from './components/modern/ModernLayout';
 
 // Import Providers
 import { useAuth } from './services/auth/AuthContext';
@@ -18,18 +18,17 @@ import { ThemeProvider } from './services/theme/ThemeContext';
 import SessionPersistence from './components/auth/SessionPersistence';
 
 // Import pages
-import Home from './pages/Home';
+import ModernHome from './pages/ModernHome';
+import ModernDashboard from './pages/ModernDashboard';
 import PublicPortfolio from './pages/Portfolio/PublicPortfolio';
 import MyPortfolio from './pages/Portfolio/MyPortfolio';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import DesignerDashboard from './pages/DesignerDashboard';
+import ModernLogin from './pages/ModernLogin';
+import ModernRegister from './pages/ModernRegister';
 import DesignerAnalytics from './pages/DesignerAnalytics';
-import ProducerDashboard from './pages/ProducerDashboard';
 import ProducerAnalytics from './pages/ProducerAnalytics';
 import Designs from './pages/Designs';
 import Producers from './pages/Producers';
-import SmartMatch from './pages/SmartMatch';
+import ModernSmartMatch from './pages/ModernSmartMatch';
 import CombinedSmartMatch from './pages/CombinedSmartMatch'; // Import new combined page
 import CapacityManagement from './pages/CapacityManagement';
 import ScheduleManagement from './pages/ScheduleManagement';
@@ -50,80 +49,41 @@ import EnhancedProducers from './pages/enhanced/EnhancedProducers';
 import MarketplaceHub from './pages/marketplace/MarketplaceHub';
 import NetworkVisualization from './pages/NetworkVisualization'; // Import our network visualization page
 import MappingDemo from './pages/MappingDemo'; // Import our new mapping demo page
-import { Gallery, GalleryItemDetailPage, GalleryUploadPage, GalleryManagementPage } from './pages/gallery';
+import ModernGallery from './pages/ModernGallery';
+import { GalleryItemDetailPage, GalleryUploadPage, GalleryManagementPage } from './pages/gallery';
 import Settings from './pages/Settings';
 import JobQueue from './pages/JobQueue';
 import DesignOptimization from './pages/DesignOptimization'; // Import our AI Design Optimization page
+import SmartMatchStudio from './pages/SmartMatchStudio'; // Unified SmartMatch solution
+import SmartMatchStudioTest from './pages/SmartMatchStudioTest'; // Test component
 
-// Protected Route Component
+// Import enhanced protected route
+import EnhancedProtectedRoute from './components/auth/EnhancedProtectedRoute';
+
+// Protected Route Component (backwards compatible)
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
-  
-  if (loading) {
-    return <div className="loading">Loading...</div>;
-  }
-  
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
-  }
-  
-  return children;
+  return <EnhancedProtectedRoute>{children}</EnhancedProtectedRoute>;
 };
 
 // Role-based Route Component
 const RoleRoute = ({ requiredRole, children }) => {
-  const { currentUser, isAuthenticated, loading } = useAuth();
-  
-  if (loading) {
-    return <div className="loading">Loading...</div>;
-  }
-  
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
-  }
-  
-  if (currentUser.role !== requiredRole) {
-    return currentUser.role === 'designer' ? 
-      <Navigate to="/dashboard" /> : 
-      <Navigate to="/dashboard" />;
-  }
-  
-  return children;
+  return <EnhancedProtectedRoute requiredRole={requiredRole}>{children}</EnhancedProtectedRoute>;
 };
 
-// Dashboard Route Component with sidebar layout
-const DashboardRoute = ({ children }) => {
-  const { currentUser } = useAuth();
-  
-  return (
-    <MainLayout>
-      <DashboardLayout>
-        {typeof children === 'function' ? children({ currentUser }) : children}
-      </DashboardLayout>
-    </MainLayout>
-  );
-};
+// Removed DashboardRoute - using ModernLayout for all pages
 
 // Order Detail Wrapper - Redirects to the Orders page with the specific order ID
 const OrderDetailWrapper = () => {
   return <Orders />;
 };
 
-// Component to handle dashboard redirection based on user role
+// Component to handle dashboard redirection
 const DashboardRedirect = () => {
-  const { isAuthenticated, currentUser } = useAuth();
+  const { currentUser, isAuthenticated } = useAuth();
   
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
-  }
-  
-  // Redirect based on user role
-  if (currentUser.role === 'producer') {
-    return <ProducerDashboard />;
-  }
-  
-  // Default to designer dashboard
-  return <DesignerDashboard />;
+  // Modern dashboard handles both authenticated and guest users
+  // No need for redirects - dashboard shows appropriate content based on auth status
+  return <ModernDashboard />;
 };
 
 // Profile Route selector based on user role
@@ -166,263 +126,278 @@ function App() {
       <Router basename="/">
         <SessionPersistence />
         <Routes>
-          {/* Public routes with main layout - Home page with hidden top banner */}
+          {/* Public routes with unified layout - Home page */}
           <Route path="/" element={
-            <MainLayout hideTopBanner={true}>
-              <AuthRedirect />
-              <Home />
-            </MainLayout>
+            <ModernLayout>
+              <ModernHome />
+            </ModernLayout>
           } />
           <Route path="/about" element={
-            <MainLayout>
+            <ModernLayout>
               <About />
-            </MainLayout>
+            </ModernLayout>
           } />
           <Route path="/pricing" element={
-            <MainLayout>
+            <ModernLayout>
               <Pricing />
-            </MainLayout>
+            </ModernLayout>
           } />
           <Route path="/contact" element={
-            <MainLayout>
+            <ModernLayout>
               <Contact />
-            </MainLayout>
+            </ModernLayout>
           } />
           <Route path="/features" element={
-            <MainLayout>
+            <ModernLayout>
               <FeatureShowcase />
-            </MainLayout>
+            </ModernLayout>
           } />
           
           {/* Search Results Page */}
           <Route path="/search" element={
-            <MainLayout>
+            <ModernLayout>
               <SearchResults />
-            </MainLayout>
+            </ModernLayout>
           } />
           
-          {/* Authentication routes with hidden top banner */}
+          {/* Authentication routes */}
           <Route path="/login" element={
-            <MainLayout hideTopBanner={true}>
-              <Login />
-            </MainLayout>
+            <ModernLayout>
+              <ModernLogin />
+            </ModernLayout>
           } />
           <Route path="/register" element={
-            <MainLayout hideTopBanner={true}>
-              <Register />
-            </MainLayout>
+            <ModernLayout>
+              <ModernRegister />
+            </ModernLayout>
           } />
           
-          {/* Dashboard routes with dashboard layout */}
+          {/* Dashboard routes with unified layout - available to all */}
           <Route path="/dashboard" element={
-            <ProtectedRoute>
-              <DashboardRoute>
+            <ModernLayout>
+              <EnhancedProtectedRoute allowGuest={true}>
                 <DashboardRedirect />
-              </DashboardRoute>
-            </ProtectedRoute>
+              </EnhancedProtectedRoute>
+            </ModernLayout>
           } />
           
           {/* Analytics Routes */}
           <Route path="/analytics" element={
             <ProtectedRoute>
-              <DashboardRoute>
+              <ModernLayout>
                 <AnalyticsSelector />
-              </DashboardRoute>
+              </ModernLayout>
             </ProtectedRoute>
           } />
           
           <Route path="/analytics/producer" element={
             <RoleRoute requiredRole="producer">
-              <DashboardRoute>
+              <ModernLayout>
                 <ProducerAnalytics />
-              </DashboardRoute>
+              </ModernLayout>
             </RoleRoute>
           } />
           
           <Route path="/analytics/designer" element={
             <RoleRoute requiredRole="designer">
-              <DashboardRoute>
+              <ModernLayout>
                 <DesignerAnalytics />
-              </DashboardRoute>
+              </ModernLayout>
             </RoleRoute>
+          } />
+          
+          
+          {/* Create Route */}
+          <Route path="/create" element={
+            <ModernLayout>
+              <CreatePage />
+            </ModernLayout>
           } />
           
           <Route path="/designs" element={
             <ProtectedRoute>
-              <DashboardRoute>
+              <ModernLayout>
                 <Designs />
-              </DashboardRoute>
+              </ModernLayout>
             </ProtectedRoute>
           } />
           
           {/* AI Design Optimization Route */}
           <Route path="/design-optimization" element={
             <ProtectedRoute>
-              <DashboardRoute>
+              <ModernLayout>
                 <DesignOptimization />
-              </DashboardRoute>
+              </ModernLayout>
             </ProtectedRoute>
           } />
           
           <Route path="/producers" element={
-            <ProtectedRoute>
-              <DashboardRoute>
-                <Producers />
-              </DashboardRoute>
-            </ProtectedRoute>
+            <ModernLayout>
+              <Producers />
+            </ModernLayout>
           } />
           
+          {/* Unified SmartMatch Studio - replaces multiple tools */}
           <Route path="/smart-match" element={
-            <ProtectedRoute>
-              <DashboardRoute>
-                <SmartMatch />
-              </DashboardRoute>
-            </ProtectedRoute>
+            <ModernLayout>
+              <SmartMatchStudio />
+            </ModernLayout>
           } />
+          
+          {/* Test route for SmartMatch Studio */}
+          <Route path="/smart-match-test" element={
+            <ModernLayout>
+              <SmartMatchStudioTest />
+            </ModernLayout>
+          } />
+          
+          {/* Legacy routes redirect to unified solution */}
+          <Route path="/design-optimization" element={<Navigate to="/smart-match?mode=ai" />} />
+          <Route path="/pdf-analysis" element={<Navigate to="/smart-match?mode=quick" />} />
           
           {/* Combined SmartMatch Page (New) */}
           <Route path="/combined-match" element={
             <ProtectedRoute>
-              <DashboardRoute>
+              <ModernLayout>
                 <CombinedSmartMatch />
-              </DashboardRoute>
+              </ModernLayout>
             </ProtectedRoute>
           } />
           
           <Route path="/capacity" element={
             <RoleRoute requiredRole="producer">
-              <DashboardRoute>
+              <ModernLayout>
                 <CapacityManagement />
-              </DashboardRoute>
+              </ModernLayout>
             </RoleRoute>
           } />
           
           <Route path="/schedule" element={
             <RoleRoute requiredRole="producer">
-              <DashboardRoute>
+              <ModernLayout>
                 <ScheduleManagement />
-              </DashboardRoute>
+              </ModernLayout>
             </RoleRoute>
           } />
           
           <Route path="/equipment" element={
             <RoleRoute requiredRole="producer">
-              <DashboardRoute>
+              <ModernLayout>
                 <Equipment />
-              </DashboardRoute>
+              </ModernLayout>
             </RoleRoute>
           } />
           
           <Route path="/profile" element={
             <ProtectedRoute>
-              <DashboardRoute>
+              <ModernLayout>
                 <ProfileSelector />
-              </DashboardRoute>
+              </ModernLayout>
             </ProtectedRoute>
           } />
           
           <Route path="/messages" element={
             <ProtectedRoute>
-              <DashboardRoute>
+              <ModernLayout>
                 <Messages />
-              </DashboardRoute>
+              </ModernLayout>
             </ProtectedRoute>
           } />
           
           <Route path="/orders/:orderId" element={
             <ProtectedRoute>
-              <DashboardRoute>
+              <ModernLayout>
                 <OrderDetailWrapper />
-              </DashboardRoute>
+              </ModernLayout>
             </ProtectedRoute>
           } />
           
           <Route path="/orders" element={
             <ProtectedRoute>
-              <DashboardRoute>
+              <ModernLayout>
                 <Orders />
-              </DashboardRoute>
+              </ModernLayout>
             </ProtectedRoute>
           } />
           
           <Route path="/pdf-analysis" element={
             <ProtectedRoute>
-              <DashboardRoute>
+              <ModernLayout>
                 <PDFAnalysisPage />
-              </DashboardRoute>
+              </ModernLayout>
             </ProtectedRoute>
           } />
           
           <Route path="/find-creators" element={
             <RoleRoute requiredRole="producer">
-              <DashboardRoute>
+              <ModernLayout>
                 <FindCreators />
-              </DashboardRoute>
+              </ModernLayout>
             </RoleRoute>
           } />
           
           {/* Geographic Network Visualization */}
           <Route path="/network" element={
             <ProtectedRoute>
-              <DashboardRoute>
+              <ModernLayout>
                 <NetworkVisualization />
-              </DashboardRoute>
+              </ModernLayout>
             </ProtectedRoute>
           } />
           
           {/* Mapping Demo Page */}
           <Route path="/mapping-demo" element={
-            <MainLayout>
+            <ModernLayout>
               <MappingDemo />
-            </MainLayout>
+            </ModernLayout>
           } />
           
           {/* Job Queue for producers */}
           <Route path="/job-queue" element={
             <RoleRoute requiredRole="producer">
-              <DashboardRoute>
+              <ModernLayout>
                 <JobQueue />
-              </DashboardRoute>
+              </ModernLayout>
             </RoleRoute>
           } />
           
           {/* Enhanced Producers Page */}
           <Route path="/enhanced-producers" element={
             <ProtectedRoute>
-              <DashboardRoute>
+              <ModernLayout>
                 <EnhancedProducers />
-              </DashboardRoute>
+              </ModernLayout>
             </ProtectedRoute>
           } />
           
           {/* Marketplace Hub Page */}
           <Route path="/marketplace" element={
             <ProtectedRoute>
-              <DashboardRoute>
+              <ModernLayout>
                 <MarketplaceHub />
-              </DashboardRoute>
+              </ModernLayout>
             </ProtectedRoute>
           } />
           
           {/* Gallery Pages */}
           <Route path="/gallery" element={
-            <MainLayout>
-              <Gallery />
-            </MainLayout>
+            <ModernLayout>
+              <ModernGallery />
+            </ModernLayout>
           } />
           
           <Route path="/gallery/:itemId" element={
-            <MainLayout>
+            <ModernLayout>
               <GalleryItemDetailPage />
-            </MainLayout>
+            </ModernLayout>
           } />
           
           <Route path="/dashboard/gallery/upload" element={
             <ProtectedRoute>
               <RoleRoute requiredRole="producer">
-                <DashboardRoute>
+                <ModernLayout>
                   <GalleryUploadPage />
-                </DashboardRoute>
+                </ModernLayout>
               </RoleRoute>
             </ProtectedRoute>
           } />
@@ -430,9 +405,9 @@ function App() {
           <Route path="/dashboard/gallery/manage" element={
             <ProtectedRoute>
               <RoleRoute requiredRole="producer">
-                <DashboardRoute>
+                <ModernLayout>
                   <GalleryManagementPage />
-                </DashboardRoute>
+                </ModernLayout>
               </RoleRoute>
             </ProtectedRoute>
           } />
@@ -440,28 +415,30 @@ function App() {
           {/* Settings Page */}
           <Route path="/settings" element={
             <ProtectedRoute>
-              <DashboardRoute>
+              <ModernLayout>
                 <Settings />
-              </DashboardRoute>
+              </ModernLayout>
             </ProtectedRoute>
           } />
           
           <Route path="/image-test" element={
-            <MainLayout>
+            <ModernLayout>
               <ImageTest />
-            </MainLayout>
+            </ModernLayout>
           } />
           
           {/* Portfolio Pages */}
           <Route path="/portfolio/:portfolioSlug" element={
-            <PublicPortfolio />
+            <ModernLayout>
+              <PublicPortfolio />
+            </ModernLayout>
           } />
           
           <Route path="/my-portfolio" element={
             <ProtectedRoute>
-              <DashboardRoute>
+              <ModernLayout>
                 <MyPortfolio />
-              </DashboardRoute>
+              </ModernLayout>
             </ProtectedRoute>
           } />
         </Routes>

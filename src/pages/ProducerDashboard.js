@@ -45,7 +45,7 @@ const ProducerDashboard = () => {
   const [monthlyRevenue, setMonthlyRevenue] = useState(8650);
   const [selectedKaizenMetric, setSelectedKaizenMetric] = useState(null);
   
-  // Sample recent orders
+  // Sample recent orders with ZUO integration
   const recentOrders = [
     {
       id: 54321,
@@ -53,7 +53,9 @@ const ProducerDashboard = () => {
       design: 'Corporate Brochure',
       status: 'in-production',
       dueDate: '2025-04-28',
-      orderValue: 750
+      orderValue: 750,
+      interface_source: 'pressly',
+      consumer_simplified: false
     },
     {
       id: 54320,
@@ -61,7 +63,10 @@ const ProducerDashboard = () => {
       design: 'Wedding Invitations',
       status: 'pending',
       dueDate: '2025-05-05',
-      orderValue: 450
+      orderValue: 450,
+      interface_source: 'zuo',
+      consumer_simplified: true,
+      auto_selected_producer: true
     },
     {
       id: 54319,
@@ -69,7 +74,9 @@ const ProducerDashboard = () => {
       design: 'Event Banners',
       status: 'completed',
       dueDate: '2025-04-15',
-      orderValue: 1200
+      orderValue: 1200,
+      interface_source: 'pressly',
+      consumer_simplified: false
     },
     {
       id: 54318,
@@ -77,7 +84,10 @@ const ProducerDashboard = () => {
       design: 'Recycled Product Labels',
       status: 'issue',
       dueDate: '2025-04-22',
-      orderValue: 350
+      orderValue: 350,
+      interface_source: 'zuo',
+      consumer_simplified: true,
+      auto_selected_producer: false
     }
   ];
   
@@ -402,7 +412,7 @@ const ProducerDashboard = () => {
             <CardHeader>
               <CardTitle>Recent Orders</CardTitle>
               <CardDescription>
-                Manage your current print orders
+                Manage your current print orders from all channels
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -422,8 +432,24 @@ const ProducerDashboard = () => {
                   <tbody>
                     {recentOrders.map(order => (
                       <tr key={order.id} className="border-b">
-                        <td className="py-3 text-sm">#{order.id}</td>
-                        <td className="py-3 text-sm">{order.customer}</td>
+                        <td className="py-3 text-sm">
+                          <div className="flex items-center gap-2">
+                            #{order.id}
+                            {order.interface_source === 'zuo' && (
+                              <Badge variant="secondary" className="text-xs bg-purple-100 text-purple-700">
+                                ZUO
+                              </Badge>
+                            )}
+                          </div>
+                        </td>
+                        <td className="py-3 text-sm">
+                          <div>
+                            {order.customer}
+                            {order.consumer_simplified && (
+                              <span className="text-xs text-gray-500 block">Consumer Order</span>
+                            )}
+                          </div>
+                        </td>
                         <td className="py-3 text-sm">{order.design}</td>
                         <td className="py-3 text-sm">
                           <StatusBadge status={order.status} />

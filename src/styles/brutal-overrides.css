@@ -1,0 +1,481 @@
+/**
+ * BRUTAL OVERRIDES
+ * Force all existing components into brutal system
+ */
+
+/* ===== UNIFIED LAYOUT OVERRIDES ===== */
+.unified-layout {
+  background: var(--black) !important;
+}
+
+.unified-nav {
+  background: var(--black) !important;
+  border-bottom: var(--border) !important;
+  backdrop-filter: none !important;
+}
+
+.nav-logo {
+  font-size: var(--text-2xl) !important;
+  font-weight: 900 !important;
+  color: var(--white) !important;
+  text-transform: uppercase !important;
+  border: none !important;
+}
+
+.nav-link {
+  color: var(--white) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  border: none !important;
+  padding-bottom: 4px !important;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--white) !important;
+  border-bottom: var(--border) !important;
+}
+
+.unified-main {
+  background: var(--black) !important;
+  min-height: calc(100vh - 100px) !important;
+  padding-top: var(--space-6) !important;
+}
+
+.unified-footer {
+  background: var(--black) !important;
+  border-top: var(--border) !important;
+  color: var(--white) !important;
+}
+
+/* ===== AUTH PAGES OVERRIDES ===== */
+.auth-page,
+.login-page,
+.register-page {
+  background: var(--black) !important;
+}
+
+.auth-card,
+.login-card,
+.register-card {
+  background: var(--black) !important;
+  border: var(--border) !important;
+  border-radius: 0 !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+.auth-title {
+  color: var(--white) !important;
+  text-transform: uppercase !important;
+  font-weight: 900 !important;
+}
+
+.auth-form input {
+  background: var(--black) !important;
+  border: var(--border) !important;
+  color: var(--white) !important;
+  border-radius: 0 !important;
+}
+
+.auth-form input:focus {
+  border-color: var(--red) !important;
+  box-shadow: none !important;
+}
+
+.auth-submit {
+  background: var(--white) !important;
+  color: var(--black) !important;
+  border: var(--border) !important;
+  border-radius: 0 !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+}
+
+.auth-submit:hover {
+  background: var(--black) !important;
+  color: var(--white) !important;
+}
+
+/* ===== DASHBOARD OVERRIDES ===== */
+.dashboard-container {
+  background: var(--black) !important;
+  color: var(--white) !important;
+}
+
+.stat-card,
+.metric-card {
+  background: var(--black) !important;
+  border: var(--border) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.stat-card:hover {
+  border-color: var(--red) !important;
+  transform: none !important;
+}
+
+.stat-value {
+  color: var(--white) !important;
+  font-weight: 900 !important;
+}
+
+.stat-label {
+  color: var(--white) !important;
+  text-transform: uppercase !important;
+  font-weight: 900 !important;
+  opacity: 0.7;
+}
+
+/* ===== PRODUCER CARDS OVERRIDES ===== */
+.producer-card {
+  background: var(--black) !important;
+  border: var(--border) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.producer-card:hover {
+  border-color: var(--red) !important;
+  transform: none !important;
+}
+
+.producer-card img {
+  filter: grayscale(100%) contrast(1.2);
+  border-radius: 0 !important;
+}
+
+/* ===== BUTTONS OVERRIDES ===== */
+.btn-primary,
+.MuiButton-containedPrimary,
+button[type="submit"] {
+  background: var(--white) !important;
+  color: var(--black) !important;
+  border: var(--border) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  padding: var(--space-2) var(--space-4) !important;
+}
+
+.btn-primary:hover,
+.MuiButton-containedPrimary:hover,
+button[type="submit"]:hover {
+  background: var(--black) !important;
+  color: var(--white) !important;
+  transform: none !important;
+}
+
+.btn-secondary,
+.MuiButton-outlined {
+  background: var(--black) !important;
+  color: var(--white) !important;
+  border: var(--border) !important;
+  border-radius: 0 !important;
+}
+
+.btn-secondary:hover,
+.MuiButton-outlined:hover {
+  background: var(--white) !important;
+  color: var(--black) !important;
+}
+
+/* ===== FORMS OVERRIDES ===== */
+.MuiTextField-root,
+.MuiOutlinedInput-root,
+input,
+textarea,
+select {
+  background: var(--black) !important;
+  border: var(--border) !important;
+  color: var(--white) !important;
+  border-radius: 0 !important;
+}
+
+.MuiOutlinedInput-root:hover,
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--white) !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused,
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--red) !important;
+  box-shadow: none !important;
+}
+
+/* ===== TABLES OVERRIDES ===== */
+.MuiTable-root,
+table {
+  background: var(--black) !important;
+  border: var(--border) !important;
+  border-radius: 0 !important;
+}
+
+.MuiTableHead-root,
+thead {
+  background: var(--white) !important;
+}
+
+.MuiTableCell-head,
+th {
+  color: var(--black) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  border: 1px solid var(--white) !important;
+}
+
+.MuiTableCell-body,
+td {
+  color: var(--white) !important;
+  border: 1px solid var(--white) !important;
+}
+
+.MuiTableRow-root:hover,
+tr:hover {
+  background: var(--gray) !important;
+}
+
+/* ===== CARDS OVERRIDES ===== */
+.MuiCard-root,
+.card {
+  background: var(--black) !important;
+  border: var(--border) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.MuiCard-root:hover,
+.card:hover {
+  border-color: var(--red) !important;
+  transform: none !important;
+}
+
+/* ===== MODALS OVERRIDES ===== */
+.MuiDialog-paper,
+.modal {
+  background: var(--black) !important;
+  border: var(--border) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.MuiDialogTitle-root,
+.modal-header {
+  background: var(--black) !important;
+  color: var(--white) !important;
+  border-bottom: var(--border) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+}
+
+/* ===== ALERTS OVERRIDES ===== */
+.MuiAlert-root,
+.alert {
+  background: var(--black) !important;
+  border: var(--border) !important;
+  border-radius: 0 !important;
+  color: var(--white) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+}
+
+.MuiAlert-standardError,
+.alert-error {
+  border-color: var(--red) !important;
+  color: var(--red) !important;
+}
+
+/* ===== STATUS BADGES OVERRIDES ===== */
+.badge,
+.status-badge,
+.order-status-pending,
+.order-status-processing,
+.order-status-completed {
+  background: var(--black) !important;
+  border: var(--border) !important;
+  color: var(--white) !important;
+  border-radius: 0 !important;
+  padding: var(--space-1) var(--space-2) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+}
+
+.order-status-completed {
+  background: var(--white) !important;
+  color: var(--black) !important;
+}
+
+.order-status-pending {
+  border-color: var(--red) !important;
+  color: var(--red) !important;
+}
+
+/* ===== CHIPS/TAGS OVERRIDES ===== */
+.MuiChip-root,
+.chip,
+.tag {
+  background: var(--black) !important;
+  border: var(--border) !important;
+  color: var(--white) !important;
+  border-radius: 0 !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+}
+
+/* ===== PROGRESS OVERRIDES ===== */
+.progress-bar,
+.MuiLinearProgress-root {
+  background: var(--gray) !important;
+  border-radius: 0 !important;
+}
+
+.progress-fill,
+.MuiLinearProgress-bar {
+  background: var(--white) !important;
+}
+
+/* ===== TOOLTIPS OVERRIDES ===== */
+.MuiTooltip-tooltip {
+  background: var(--white) !important;
+  color: var(--black) !important;
+  border-radius: 0 !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+}
+
+/* ===== DROPDOWNS OVERRIDES ===== */
+.dropdown-menu,
+.MuiMenu-paper {
+  background: var(--black) !important;
+  border: var(--border) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.dropdown-item,
+.MuiMenuItem-root {
+  color: var(--white) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+}
+
+.dropdown-item:hover,
+.MuiMenuItem-root:hover {
+  background: var(--white) !important;
+  color: var(--black) !important;
+}
+
+/* ===== IMAGES OVERRIDES ===== */
+img {
+  filter: grayscale(100%) contrast(1.5);
+  border-radius: 0 !important;
+}
+
+/* ===== DIVIDERS OVERRIDES ===== */
+.MuiDivider-root,
+hr {
+  border-color: var(--white) !important;
+  border-width: 4px !important;
+}
+
+/* ===== LOADING STATES OVERRIDES ===== */
+.loading,
+.spinner {
+  color: var(--white) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+}
+
+/* ===== EMPTY STATES OVERRIDES ===== */
+.empty-state {
+  color: var(--white) !important;
+  text-align: center !important;
+}
+
+.empty-state-icon {
+  background: none !important;
+  color: var(--white) !important;
+  border: var(--border) !important;
+  border-radius: 0 !important;
+}
+
+/* ===== SEARCH OVERRIDES ===== */
+.search-box input {
+  background: var(--black) !important;
+  border: var(--border) !important;
+  color: var(--white) !important;
+  border-radius: 0 !important;
+}
+
+/* ===== TABS OVERRIDES ===== */
+.tabs,
+.MuiTabs-root {
+  border-bottom: var(--border) !important;
+}
+
+.tab,
+.MuiTab-root {
+  color: var(--white) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+}
+
+.tab.active,
+.MuiTab-root.Mui-selected {
+  color: var(--white) !important;
+  border-bottom: var(--border) !important;
+}
+
+/* ===== GLOBAL OVERRIDES ===== */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--white) var(--black);
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--black);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--white);
+  border: none;
+}
+
+/* Force removal of all Material-UI elevation */
+[class*="MuiPaper-elevation"] {
+  box-shadow: none !important;
+}
+
+/* Force all backgrounds to black */
+[class*="bg-"],
+[class*="background-"] {
+  background: var(--black) !important;
+}
+
+/* Force all text to white */
+[class*="text-"],
+[class*="color-"] {
+  color: var(--white) !important;
+}
+
+/* Remove all transitions and animations */
+*,
+*::before,
+*::after {
+  animation-duration: 0s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+}

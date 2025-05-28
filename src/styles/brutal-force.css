@@ -1,0 +1,259 @@
+/**
+ * BRUTAL FORCE
+ * Last resort overrides to ensure total brutalism
+ */
+
+/* KILL ALL COMFORT */
+* {
+  /* Remove ALL curves */
+  border-radius: 0 !important;
+  
+  /* Remove ALL shadows */
+  box-shadow: none !important;
+  text-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  
+  /* Remove ALL transitions */
+  transition: none !important;
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  
+  /* Remove ALL animations */
+  animation: none !important;
+  -webkit-animation: none !important;
+  -moz-animation: none !important;
+  -o-animation: none !important;
+  
+  /* Remove ALL transforms except basic ones */
+  transform-style: flat !important;
+  
+  /* Force sharp edges */
+  -webkit-font-smoothing: none !important;
+  -moz-osx-font-smoothing: unset !important;
+}
+
+/* FORCE BLACK BACKGROUNDS */
+html,
+body,
+div,
+main,
+section,
+article,
+aside,
+header,
+footer,
+nav {
+  background: #000000 !important;
+  background-color: #000000 !important;
+  background-image: none !important;
+}
+
+/* FORCE WHITE TEXT */
+h1, h2, h3, h4, h5, h6,
+p, span, a, li, td, th,
+label, blockquote {
+  color: #FFFFFF !important;
+}
+
+/* FORCE BRUTAL INPUTS */
+input,
+textarea,
+select,
+button {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  border: 4px solid #FFFFFF !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #EF4444 !important;
+}
+
+/* FORCE BRUTAL BUTTONS */
+button,
+.btn,
+[class*="button"],
+[class*="Button"],
+a[class*="btn"] {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  border: 4px solid #FFFFFF !important;
+  border-radius: 0 !important;
+  text-transform: uppercase !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.05em !important;
+  padding: 16px 32px !important;
+  cursor: pointer !important;
+}
+
+button:hover,
+.btn:hover {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+}
+
+/* FORCE BRUTAL CARDS */
+[class*="card"],
+[class*="Card"] {
+  background: #000000 !important;
+  border: 4px solid #FFFFFF !important;
+  border-radius: 0 !important;
+}
+
+/* KILL MATERIAL UI SOFTNESS */
+[class*="Mui"] {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+[class*="MuiPaper"] {
+  background: #000000 !important;
+  border: 4px solid #FFFFFF !important;
+}
+
+/* FORCE BRUTAL TABLES */
+table {
+  border-collapse: collapse !important;
+  border: 4px solid #FFFFFF !important;
+}
+
+th {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+}
+
+td {
+  border: 1px solid #FFFFFF !important;
+}
+
+/* FORCE MONOCHROME IMAGES */
+img {
+  filter: grayscale(100%) contrast(200%) !important;
+}
+
+/* KILL GRADIENTS */
+[style*="gradient"] {
+  background: #000000 !important;
+}
+
+/* REMOVE PSEUDO ELEMENTS */
+*::before,
+*::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* BRUTAL SCROLLBARS */
+::-webkit-scrollbar {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000 !important;
+  border: 4px solid #FFFFFF !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #FFFFFF !important;
+  border: 4px solid #000000 !important;
+}
+
+/* BRUTAL SELECTION */
+::selection {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+}
+
+::-moz-selection {
+  background: #FFFFFF !important;
+  color: #000000 !important;
+}
+
+/* FORCE UPPERCASE HEADINGS */
+h1, h2, h3, h4, h5, h6 {
+  text-transform: uppercase !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 0.9 !important;
+}
+
+/* REMOVE ALL OPACITY */
+* {
+  opacity: 1 !important;
+}
+
+/* FORCE LINKS */
+a {
+  color: #FFFFFF !important;
+  text-decoration: none !important;
+  border-bottom: 4px solid #FFFFFF !important;
+}
+
+a:hover {
+  color: #EF4444 !important;
+  border-color: #EF4444 !important;
+}
+
+/* FORCE NAVIGATION */
+nav a {
+  border-bottom: none !important;
+  padding-bottom: 4px !important;
+}
+
+nav a:hover,
+nav a.active {
+  border-bottom: 4px solid #FFFFFF !important;
+}
+
+/* BRUTAL FORMS */
+form {
+  background: #000000 !important;
+}
+
+label {
+  text-transform: uppercase !important;
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
+}
+
+/* BRUTAL ALERTS */
+[class*="alert"],
+[class*="Alert"] {
+  background: #000000 !important;
+  border: 4px solid #EF4444 !important;
+  color: #EF4444 !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+}
+
+/* FINAL ENFORCEMENT */
+body * {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
+}
+
+/* REMOVE ALL FILTERS EXCEPT ON IMAGES */
+*:not(img) {
+  filter: none !important;
+  -webkit-filter: none !important;
+}
+
+/* FORCE POINTER */
+button,
+a,
+[class*="btn"],
+[class*="button"],
+[class*="link"] {
+  cursor: pointer !important;
+}

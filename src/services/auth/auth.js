@@ -3,7 +3,16 @@
  * 
  * This service handles user registration, login, and session management.
  * In a production environment, this would interact with a backend API.
+ * 
+ * Extended for ZUO-Pressly Integration with dual-platform support
  */
+
+import { 
+  extendUserWithZuoFields, 
+  updateUserProgress,
+  INTERFACE_TYPES,
+  ZUO_LEVELS 
+} from '../../models/userExtensions';
 
 // Constants
 const LOCAL_STORAGE_TOKEN_KEY = 'pressly_auth_token';
@@ -22,8 +31,8 @@ const saveUsers = () => {
 // Mock user database (this would be on the server in a real app)
 let users = JSON.parse(localStorage.getItem('pressly_users') || '[]');
 
-// Add default test users if none exist
-if (users.length === 0) {
+// Function to initialize demo users
+const initializeDemoUsers = () => {
   users = [
     {
       id: 'designer-123',
@@ -35,7 +44,13 @@ if (users.length === 0) {
       businessName: null,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
-      is_active: true
+      is_active: true,
+      // ZUO Integration fields
+      interface_preference: INTERFACE_TYPES.PRESSLY_PROFESSIONAL,
+      zuo_level: ZUO_LEVELS.BASIC_CONSUMER,
+      consumer_orders_count: 0,
+      producer_mode_eligible: false,
+      last_interface_used: 'pressly'
     },
     {
       id: 'producer-456',
@@ -47,7 +62,13 @@ if (users.length === 0) {
       businessName: 'Quality Print Services',
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
-      is_active: true
+      is_active: true,
+      // ZUO Integration fields
+      interface_preference: INTERFACE_TYPES.PRESSLY_PROFESSIONAL,
+      zuo_level: ZUO_LEVELS.PRODUCER_ELIGIBLE,
+      consumer_orders_count: 15,
+      producer_mode_eligible: true,
+      last_interface_used: 'pressly'
     },
     {
       id: 'admin-789',
@@ -59,11 +80,76 @@ if (users.length === 0) {
       businessName: null,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
-      is_active: true
+      is_active: true,
+      // ZUO Integration fields
+      interface_preference: INTERFACE_TYPES.PRESSLY_PROFESSIONAL,
+      zuo_level: ZUO_LEVELS.PRODUCER_ELIGIBLE,
+      consumer_orders_count: 0,
+      producer_mode_eligible: true,
+      last_interface_used: 'pressly'
+    },
+    // New consumer test user
+    {
+      id: 'consumer-101',
+      email: 'consumer@zuo.com',
+      password: 'password123',
+      fullName: 'New Consumer',
+      phone: '555-000-1111',
+      role: 'consumer',
+      businessName: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      is_active: true,
+      // ZUO Integration fields
+      interface_preference: INTERFACE_TYPES.ZUO_CONSUMER,
+      zuo_level: ZUO_LEVELS.BASIC_CONSUMER,
+      consumer_orders_count: 0,
+      producer_mode_eligible: false,
+      last_interface_used: 'zuo',
+      simplified_onboarding: true
+    },
+    // Power user test account
+    {
+      id: 'power-user-202',
+      email: 'power@zuo.com',
+      password: 'password123',
+      fullName: 'Power User',
+      phone: '555-000-2222',
+      role: 'consumer',
+      businessName: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      is_active: true,
+      // ZUO Integration fields
+      interface_preference: INTERFACE_TYPES.ZUO_CONSUMER,
+      zuo_level: ZUO_LEVELS.POWER_USER,
+      consumer_orders_count: 7,
+      producer_mode_eligible: false,
+      last_interface_used: 'zuo',
+      simplified_onboarding: false
     }
   ];
   saveUsers();
+};
+
+// Initialize demo users if they don't exist
+if (users.length === 0) {
+  initializeDemoUsers();
 }
+
+// Ensure demo accounts always exist
+const ensureDemoAccounts = () => {
+  const demoEmails = ['designer@pressly.com', 'producer@pressly.com'];
+  const missingDemos = demoEmails.filter(email => !users.find(u => u.email === email));
+  
+  if (missingDemos.length > 0) {
+    // Re-initialize all demo users if any are missing
+    initializeDemoUsers();
+  }
+};
+
+// Check demo accounts on every load
+ensureDemoAccounts();
 
 /**
  * Generate a unique ID
@@ -106,6 +192,15 @@ const getUserById = (id) => {
  * @returns {Object|null} - The user object or null if not found
  */
 const getUserByEmail = (email) => {
+  // Reload users from localStorage to ensure we have the latest data
+  users = JSON.parse(localStorage.getItem('pressly_users') || '[]');
+  
+  // Ensure demo accounts exist
+  if (users.length === 0) {
+    initializeDemoUsers();
+    users = JSON.parse(localStorage.getItem('pressly_users') || '[]');
+  }
+  
   return users.find(user => user.email === email) || null;
 };
 
@@ -143,11 +238,17 @@ export const registerUser = (userData) => {
         // Determine role based on whether businessName is provided
         let role = userData.role;
         if (!role) {
-          role = userData.businessName ? 'producer' : 'designer';
+          // Default new users to consumer role unless they have a business name
+          role = userData.businessName ? 'producer' : 'consumer';
         }
         
-        // Create new user object
-        const newUser = {
+        // Determine interface based on role
+        const interfacePreference = role === 'consumer' ? 
+          INTERFACE_TYPES.ZUO_CONSUMER : 
+          INTERFACE_TYPES.PRESSLY_PROFESSIONAL;
+        
+        // Create new user object with ZUO fields
+        const baseUser = {
           id: generateId(),
           email: userData.email,
           password: userData.password, // In a real app, this would be hashed
@@ -157,8 +258,18 @@ export const registerUser = (userData) => {
           businessName: userData.businessName || null,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
-          is_active: true
+          is_active: true,
+          // ZUO Integration fields
+          interface_preference: interfacePreference,
+          zuo_level: ZUO_LEVELS.BASIC_CONSUMER,
+          consumer_orders_count: 0,
+          producer_mode_eligible: false,
+          last_interface_used: interfacePreference === INTERFACE_TYPES.ZUO_CONSUMER ? 'zuo' : 'pressly',
+          simplified_onboarding: role === 'consumer'
         };
+        
+        // Extend with full ZUO fields
+        const newUser = extendUserWithZuoFields(baseUser);
         
         // Add to "database"
         users.push(newUser);
@@ -167,7 +278,7 @@ export const registerUser = (userData) => {
         // Generate token
         const token = generateToken(newUser.id);
         
-        // Create user object without password
+        // Create user object without password and extend with ZUO fields
         const userWithoutPassword = { ...newUser };
         delete userWithoutPassword.password;
         
@@ -194,32 +305,51 @@ export const loginUser = (email, password) => {
     // Simulate API delay
     setTimeout(() => {
       try {
+        // Ensure demo accounts exist before login attempt
+        ensureDemoAccounts();
+        
+        // Log login attempt
+        console.log('Login attempt for:', email);
+        
         // Find user
         const user = getUserByEmail(email);
         
+        // Log user found status
+        console.log('User found:', !!user);
+        
         // Check if user exists and password matches
         if (!user || user.password !== password) {
+          console.log('Login failed - user not found or password mismatch');
           reject(new Error('Invalid email or password'));
           return;
         }
         
-        // Handle missing role - default to 'designer' if not specified
+        // Handle missing role - default to 'consumer' if not specified
         if (!user.role) {
-          user.role = 'designer';
+          user.role = 'consumer';
+        }
+        
+        // Extend user with ZUO fields if they don't exist
+        let extendedUser = user;
+        if (!user.interface_preference) {
+          extendedUser = extendUserWithZuoFields(user);
           
           // Update user in "database"
           const userIndex = users.findIndex(u => u.id === user.id);
           if (userIndex !== -1) {
-            users[userIndex] = user;
+            users[userIndex] = extendedUser;
             saveUsers();
           }
         }
         
+        // Update last interface used
+        extendedUser.last_interface_used = extendedUser.interface_preference === INTERFACE_TYPES.ZUO_CONSUMER ? 'zuo' : 'pressly';
+        
         // Generate token
-        const token = generateToken(user.id);
+        const token = generateToken(extendedUser.id);
         
         // Create user object without password
-        const userWithoutPassword = { ...user };
+        const userWithoutPassword = { ...extendedUser };
         delete userWithoutPassword.password;
         
         // Save authentication session
@@ -380,6 +510,94 @@ export const refreshSession = () => {
   });
 };
 
+/**
+ * Increment user's consumer order count and update their ZUO level
+ * @param {string} userId - The user ID
+ * @returns {Promise} - Promise with the updated user data
+ */
+export const incrementUserOrders = (userId) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      try {
+        // Find user in "database"
+        const userIndex = users.findIndex(u => u.id === userId);
+        
+        if (userIndex === -1) {
+          reject(new Error('User not found'));
+          return;
+        }
+        
+        // Update user progress
+        const updatedUser = updateUserProgress(users[userIndex]);
+        
+        // Update in "database"
+        users[userIndex] = updatedUser;
+        saveUsers();
+        
+        // Create user object without password
+        const userWithoutPassword = { ...updatedUser };
+        delete userWithoutPassword.password;
+        
+        // Update in localStorage if it's the current user
+        const currentUser = getCurrentUser();
+        if (currentUser && currentUser.id === userId) {
+          localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(userWithoutPassword));
+        }
+        
+        resolve(userWithoutPassword);
+      } catch (error) {
+        reject(error);
+      }
+    }, 300);
+  });
+};
+
+/**
+ * Switch user interface preference
+ * @param {string} interfaceType - The interface to switch to
+ * @returns {Promise} - Promise with the updated user data
+ */
+export const switchInterface = (interfaceType) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      try {
+        const currentUser = getCurrentUser();
+        
+        if (!currentUser) {
+          reject(new Error('Not authenticated'));
+          return;
+        }
+        
+        // Find user in "database"
+        const userIndex = users.findIndex(u => u.id === currentUser.id);
+        
+        if (userIndex === -1) {
+          reject(new Error('User not found'));
+          return;
+        }
+        
+        // Update interface preference
+        users[userIndex].interface_preference = interfaceType;
+        users[userIndex].last_interface_used = interfaceType === INTERFACE_TYPES.ZUO_CONSUMER ? 'zuo' : 'pressly';
+        users[userIndex].updated_at = new Date().toISOString();
+        
+        saveUsers();
+        
+        // Create user object without password
+        const userWithoutPassword = { ...users[userIndex] };
+        delete userWithoutPassword.password;
+        
+        // Update in localStorage
+        localStorage.setItem(LOCAL_STORAGE_USER_KEY, JSON.stringify(userWithoutPassword));
+        
+        resolve(userWithoutPassword);
+      } catch (error) {
+        reject(error);
+      }
+    }, 300);
+  });
+};
+
 // Create a named export object
 const authService = {
   registerUser,
@@ -389,7 +607,43 @@ const authService = {
   isAuthenticated,
   updateUser,
   refreshSession,
-  isSessionValid
+  isSessionValid,
+  incrementUserOrders,
+  switchInterface
 };
 
 export default authService;
+
+// Debug utilities for development
+if (typeof window !== 'undefined') {
+  window.debugAuth = {
+    listUsers: () => {
+      const currentUsers = JSON.parse(localStorage.getItem('pressly_users') || '[]');
+      console.table(currentUsers.map(u => {
+        const { password, ...userWithoutPassword } = u;
+        return userWithoutPassword;
+      }));
+      return currentUsers.length;
+    },
+    resetDemoAccounts: () => {
+      localStorage.removeItem('pressly_users');
+      localStorage.removeItem('pressly_auth_token');
+      localStorage.removeItem('pressly_current_user');
+      localStorage.removeItem('pressly_session_expires');
+      console.log('Demo accounts reset. Reloading...');
+      window.location.reload();
+    },
+    getCurrentSession: () => {
+      const token = localStorage.getItem('pressly_auth_token');
+      const user = localStorage.getItem('pressly_current_user');
+      const expires = localStorage.getItem('pressly_session_expires');
+      console.log('Current session:', {
+        hasToken: !!token,
+        user: user ? JSON.parse(user) : null,
+        expires: expires ? new Date(parseInt(expires)) : null,
+        isValid: isSessionValid()
+      });
+    }
+  };
+  console.log('Debug auth utilities available at window.debugAuth');
+}

@@ -1,0 +1,589 @@
+/**
+ * BRUTAL DESIGN SYSTEM
+ * Black. White. Red. Truth.
+ * No comfort. No compromise.
+ */
+
+/* ===== RESET EVERYTHING ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+}
+
+/* ===== CORE SYSTEM ===== */
+:root {
+  /* Colors - Binary Only */
+  --black: #000000;
+  --white: #FFFFFF;
+  --red: #EF4444;
+  --gray: #171717; /* Emergency use only */
+  
+  /* Typography - System Only */
+  --font-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  
+  /* Sizing - Fixed Scale */
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --text-2xl: 32px;
+  --text-3xl: 48px;
+  --text-4xl: 64px;
+  
+  /* Spacing - Rigid Grid */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 48px;
+  --space-6: 64px;
+  --space-7: 96px;
+  --space-8: 128px;
+  
+  /* Borders - 4px Only */
+  --border: 4px solid var(--white);
+  --border-red: 4px solid var(--red);
+}
+
+/* ===== BASE DOCUMENT ===== */
+html {
+  font-size: 16px;
+  line-height: 1;
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-system);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  background: var(--black);
+  color: var(--white);
+  min-height: 100vh;
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: var(--text-4xl);
+  margin-bottom: var(--space-4);
+}
+
+h2 {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-3);
+}
+
+h3 {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-3);
+}
+
+h4 {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-2);
+}
+
+p {
+  font-size: var(--text-base);
+  font-weight: 400;
+  text-transform: none;
+  line-height: 1.5;
+  margin-bottom: var(--space-3);
+  max-width: 640px;
+}
+
+a {
+  color: var(--white);
+  text-decoration: none;
+  border-bottom: var(--border);
+  transition: none;
+}
+
+a:hover {
+  color: var(--red);
+  border-color: var(--red);
+}
+
+/* ===== LAYOUT SYSTEM ===== */
+.container {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: var(--space-4);
+}
+
+.section {
+  padding: var(--space-6) 0;
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* ===== BUTTON SYSTEM - BINARY ONLY ===== */
+.btn {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  font-weight: 900;
+  font-size: var(--text-base);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: var(--border);
+  background: var(--black);
+  color: var(--white);
+  cursor: pointer;
+  transition: none;
+  text-align: center;
+  min-width: 200px;
+}
+
+.btn:hover {
+  background: var(--white);
+  color: var(--black);
+}
+
+.btn-primary {
+  background: var(--white);
+  color: var(--black);
+}
+
+.btn-primary:hover {
+  background: var(--black);
+  color: var(--white);
+}
+
+.btn-danger {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.btn-danger:hover {
+  background: var(--red);
+  color: var(--white);
+  border-color: var(--red);
+}
+
+/* Binary Choice Container */
+.binary-choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin: var(--space-4) 0;
+}
+
+.binary-choice .btn {
+  width: 100%;
+}
+
+/* ===== FORMS - MINIMAL INPUT ===== */
+input,
+textarea,
+select {
+  width: 100%;
+  padding: var(--space-2);
+  background: var(--black);
+  color: var(--white);
+  border: var(--border);
+  font-family: var(--font-system);
+  font-size: var(--text-base);
+  font-weight: 400;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--red);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--gray);
+  opacity: 1;
+}
+
+label {
+  display: block;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: var(--space-1);
+  font-size: var(--text-sm);
+}
+
+/* ===== CARDS - BRUTAL CONTAINERS ===== */
+.card {
+  background: var(--black);
+  border: var(--border);
+  padding: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.card:hover {
+  border-color: var(--red);
+}
+
+.card-title {
+  font-size: var(--text-xl);
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: var(--space-2);
+}
+
+/* ===== NAVIGATION - STARK HEADER ===== */
+.nav {
+  background: var(--black);
+  border-bottom: var(--border);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  font-size: var(--text-2xl);
+  font-weight: 900;
+  border: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.nav-link {
+  font-weight: 900;
+  text-transform: uppercase;
+  border: none;
+  padding-bottom: 4px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  border-bottom: var(--border);
+}
+
+/* ===== MAIN CONTENT OFFSET ===== */
+main {
+  margin-top: 100px;
+  min-height: calc(100vh - 100px);
+}
+
+/* ===== FOOTER - MINIMAL INFO ===== */
+.footer {
+  background: var(--black);
+  border-top: var(--border);
+  padding: var(--space-6) 0;
+  margin-top: var(--space-8);
+}
+
+.footer-content {
+  max-width: 1024px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+  text-align: center;
+}
+
+/* ===== STATUS STATES ===== */
+.status {
+  display: inline-block;
+  padding: var(--space-1) var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 900;
+  text-transform: uppercase;
+  border: var(--border);
+}
+
+.status-active {
+  border-color: var(--white);
+  color: var(--white);
+}
+
+.status-danger {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.status-complete {
+  background: var(--white);
+  color: var(--black);
+}
+
+/* ===== TABLES - RAW DATA ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: var(--border);
+}
+
+th,
+td {
+  padding: var(--space-2);
+  text-align: left;
+  border: 1px solid var(--white);
+}
+
+th {
+  background: var(--white);
+  color: var(--black);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+/* ===== ALERTS - CONFRONTATIONAL ===== */
+.alert {
+  padding: var(--space-3);
+  margin-bottom: var(--space-3);
+  border: var(--border);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.alert-danger {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* ===== MODAL - FORCED DECISION ===== */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal {
+  background: var(--black);
+  border: var(--border);
+  padding: var(--space-5);
+  max-width: 640px;
+  width: 90%;
+}
+
+.modal-title {
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-3);
+}
+
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+/* ===== LOADING - NO DECORATION ===== */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: var(--text-xl);
+}
+
+/* ===== EMPTY STATES - BRUTAL TRUTH ===== */
+.empty {
+  text-align: center;
+  padding: var(--space-8) 0;
+}
+
+.empty-title {
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-2);
+}
+
+.empty-message {
+  font-size: var(--text-lg);
+  font-weight: 400;
+  text-transform: none;
+  margin-bottom: var(--space-4);
+}
+
+/* ===== PROGRESS - LINEAR ONLY ===== */
+.progress {
+  height: 8px;
+  background: var(--gray);
+  position: relative;
+  margin: var(--space-3) 0;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--white);
+  transition: width 0.2s linear;
+}
+
+/* ===== BADGES - STARK LABELS ===== */
+.badge {
+  display: inline-block;
+  padding: var(--space-1);
+  font-size: var(--text-xs);
+  font-weight: 900;
+  text-transform: uppercase;
+  border: 2px solid var(--white);
+  margin-right: var(--space-1);
+}
+
+.badge-danger {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* ===== DIVIDERS ===== */
+hr {
+  border: none;
+  border-top: var(--border);
+  margin: var(--space-5) 0;
+}
+
+/* ===== LISTS - NUMBERED ONLY ===== */
+ol {
+  counter-reset: item;
+  padding-left: 0;
+}
+
+ol li {
+  counter-increment: item;
+  margin-bottom: var(--space-2);
+  padding-left: var(--space-4);
+  position: relative;
+}
+
+ol li::before {
+  content: counter(item, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  font-weight: 900;
+}
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul li {
+  padding-left: var(--space-3);
+  margin-bottom: var(--space-1);
+  position: relative;
+}
+
+ul li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+}
+
+/* ===== QUOTES - BRUTAL EMPHASIS ===== */
+blockquote {
+  border-left: var(--border);
+  padding-left: var(--space-3);
+  margin: var(--space-4) 0;
+  font-size: var(--text-xl);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+/* ===== CODE - MONOSPACE ONLY ===== */
+code {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+  background: var(--gray);
+  padding: 2px 6px;
+  font-size: var(--text-sm);
+}
+
+pre {
+  background: var(--gray);
+  border: var(--border);
+  padding: var(--space-3);
+  overflow-x: auto;
+  margin: var(--space-3) 0;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+/* ===== RESPONSIVE - SINGLE COLUMN ===== */
+@media (max-width: 768px) {
+  h1 { font-size: var(--text-3xl); }
+  h2 { font-size: var(--text-2xl); }
+  h3 { font-size: var(--text-xl); }
+  
+  .binary-choice {
+    grid-template-columns: 1fr;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .container {
+    padding: var(--space-2);
+  }
+}
+
+/* ===== ANIMATIONS - NONE ===== */
+* {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* ===== OVERRIDES - FORCE BRUTAL ===== */
+body * {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* Remove all gradients */
+*[class*="gradient"],
+*[style*="gradient"] {
+  background: var(--black) !important;
+}
+
+/* Force black background everywhere */
+div, section, main, header, footer, nav, aside, article {
+  background: var(--black) !important;
+}
+
+/* Force white text everywhere */
+p, span, div, h1, h2, h3, h4, h5, h6, a, li, td, th {
+  color: var(--white) !important;
+}
+
+/* Remove all decorative elements */
+*::after,
+*::before {
+  display: none !important;
+}

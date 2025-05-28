@@ -1,0 +1,690 @@
+/**
+ * Modern Style Updates for Pressly
+ * Comprehensive styling improvements for all pages
+ */
+
+/* ===== Global Improvements ===== */
+
+/* Override default styles with modern aesthetic */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  color: #111827;
+  line-height: 1.6;
+  background-color: #fafafa;
+}
+
+/* Modern typography scale */
+h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: #111827;
+}
+
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: #111827;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #111827;
+}
+
+h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+p {
+  color: #4b5563;
+  line-height: 1.75;
+}
+
+/* ===== Button Styles ===== */
+
+/* Primary buttons */
+.btn-primary,
+.MuiButton-containedPrimary,
+button[type="submit"]:not(.btn-secondary):not(.btn-ghost) {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+  color: white !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600 !important;
+  border-radius: 0.5rem !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
+  transition: all 0.2s ease !important;
+  text-transform: none !important;
+}
+
+.btn-primary:hover,
+.MuiButton-containedPrimary:hover,
+button[type="submit"]:not(.btn-secondary):hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  transform: translateY(-1px);
+}
+
+/* Secondary buttons */
+.btn-secondary,
+.MuiButton-outlined,
+.MuiButton-text {
+  background: transparent !important;
+  color: #3b82f6 !important;
+  border: 1.5px solid #e5e7eb !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600 !important;
+  border-radius: 0.5rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-secondary:hover,
+.MuiButton-outlined:hover {
+  background: #f3f4f6 !important;
+  border-color: #3b82f6 !important;
+}
+
+/* Ghost buttons */
+.btn-ghost {
+  background: transparent !important;
+  color: #6b7280 !important;
+  border: none !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-ghost:hover {
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+/* Small buttons */
+.btn-sm {
+  padding: 0.5rem 1rem !important;
+  font-size: 0.875rem !important;
+}
+
+/* ===== Card Styles ===== */
+
+.MuiCard-root,
+.card,
+.dashboard-card,
+[class*="card"] {
+  background: white !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+  transition: all 0.2s ease !important;
+}
+
+.MuiCard-root:hover,
+.card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+  border-color: #d1d5db !important;
+}
+
+.MuiCardContent-root,
+.card-content {
+  padding: 1.5rem !important;
+}
+
+.MuiCardHeader-root,
+.card-header {
+  padding: 1.5rem 1.5rem 0 !important;
+  border-bottom: none !important;
+}
+
+/* ===== Form Styles ===== */
+
+.MuiTextField-root,
+.MuiOutlinedInput-root,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+  width: 100%;
+  padding: 0.75rem 1rem !important;
+  font-size: 1rem !important;
+  border: 1.5px solid #e5e7eb !important;
+  border-radius: 0.5rem !important;
+  background: white !important;
+  transition: all 0.2s ease !important;
+}
+
+.MuiOutlinedInput-root:hover,
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: #d1d5db !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused,
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Form labels */
+.MuiFormLabel-root,
+label {
+  color: #374151 !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* ===== Table Styles ===== */
+
+.MuiTable-root,
+table {
+  background: white !important;
+  border-radius: 0.75rem !important;
+  overflow: hidden !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+.MuiTableHead-root,
+thead {
+  background: #f9fafb !important;
+}
+
+.MuiTableCell-head,
+th {
+  color: #374151 !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  padding: 1rem !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.MuiTableCell-body,
+td {
+  padding: 1rem !important;
+  color: #4b5563 !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+}
+
+.MuiTableRow-root:hover,
+tr:hover {
+  background: #f9fafb !important;
+}
+
+/* ===== Navigation Improvements ===== */
+
+.unified-nav {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.nav-link {
+  font-weight: 500 !important;
+  color: #6b7280 !important;
+  transition: color 0.2s ease !important;
+}
+
+.nav-link:hover {
+  color: #111827 !important;
+}
+
+.nav-link.active {
+  color: #3b82f6 !important;
+}
+
+/* ===== Dashboard Improvements ===== */
+
+/* Stats cards */
+.stat-card,
+[class*="metric-card"],
+[class*="stats-card"] {
+  background: white !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.75rem !important;
+  padding: 1.5rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.stat-value {
+  font-size: 2.5rem !important;
+  font-weight: 800 !important;
+  color: #111827 !important;
+}
+
+.stat-label {
+  color: #6b7280 !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+}
+
+/* Progress bars */
+.progress-bar,
+[class*="progress"] {
+  background: #e5e7eb !important;
+  border-radius: 9999px !important;
+  overflow: hidden !important;
+}
+
+.progress-fill,
+[class*="progress-bar"] > div {
+  background: linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%) !important;
+  transition: width 0.5s ease !important;
+}
+
+/* ===== Badge Styles ===== */
+
+.MuiBadge-root,
+.badge,
+[class*="badge"] {
+  padding: 0.25rem 0.75rem !important;
+  border-radius: 9999px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.025em !important;
+}
+
+.badge-success,
+[class*="success"] {
+  background: #d1fae5 !important;
+  color: #065f46 !important;
+}
+
+.badge-warning,
+[class*="warning"],
+[class*="pending"] {
+  background: #fed7aa !important;
+  color: #92400e !important;
+}
+
+.badge-error,
+[class*="error"],
+[class*="danger"] {
+  background: #fee2e2 !important;
+  color: #991b1b !important;
+}
+
+.badge-info,
+[class*="info"] {
+  background: #dbeafe !important;
+  color: #1e40af !important;
+}
+
+/* ===== Spacing Improvements ===== */
+
+.container,
+[class*="container"] {
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+  padding: 0 1.5rem !important;
+}
+
+section {
+  padding: 4rem 0 !important;
+}
+
+/* Consistent margins */
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 1rem !important;
+  margin-top: 0 !important;
+}
+
+p {
+  margin-bottom: 1.5rem !important;
+}
+
+/* ===== Producer/Designer Cards ===== */
+
+.producer-card,
+.designer-card,
+[class*="creator-card"] {
+  background: white !important;
+  border: 1px solid #e5e7eb !important;
+  border-radius: 0.75rem !important;
+  overflow: hidden !important;
+  transition: all 0.2s ease !important;
+}
+
+.producer-card:hover,
+.designer-card:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* ===== Order Status Styles ===== */
+
+.order-status-pending {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+  padding: 0.25rem 0.75rem !important;
+  border-radius: 9999px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+.order-status-in-progress,
+.order-status-in-production {
+  background: #dbeafe !important;
+  color: #1e40af !important;
+  padding: 0.25rem 0.75rem !important;
+  border-radius: 9999px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+.order-status-completed {
+  background: #d1fae5 !important;
+  color: #065f46 !important;
+  padding: 0.25rem 0.75rem !important;
+  border-radius: 9999px !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+}
+
+/* ===== Modal/Dialog Styles ===== */
+
+.MuiDialog-paper,
+.modal {
+  border-radius: 1rem !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.MuiDialogTitle-root,
+.modal-header {
+  padding: 1.5rem !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.MuiDialogContent-root,
+.modal-content {
+  padding: 1.5rem !important;
+}
+
+.MuiDialogActions-root,
+.modal-footer {
+  padding: 1rem 1.5rem !important;
+  border-top: 1px solid #e5e7eb !important;
+  background: #f9fafb !important;
+}
+
+/* ===== Tooltip Styles ===== */
+
+.MuiTooltip-tooltip {
+  background: #1f2937 !important;
+  color: white !important;
+  font-size: 0.875rem !important;
+  padding: 0.5rem 0.75rem !important;
+  border-radius: 0.375rem !important;
+}
+
+/* ===== Loading States ===== */
+
+.loading,
+[class*="loading"] {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 200px !important;
+}
+
+.spinner {
+  width: 40px !important;
+  height: 40px !important;
+  border: 3px solid #e5e7eb !important;
+  border-top: 3px solid #3b82f6 !important;
+  border-radius: 50% !important;
+  animation: spin 1s linear infinite !important;
+}
+
+/* ===== Grid Improvements ===== */
+
+.grid,
+[class*="grid"] {
+  display: grid !important;
+  gap: 1.5rem !important;
+}
+
+/* ===== Image Styles ===== */
+
+img {
+  border-radius: 0.5rem !important;
+  object-fit: cover !important;
+}
+
+.avatar,
+[class*="avatar"] {
+  border-radius: 9999px !important;
+  border: 2px solid #e5e7eb !important;
+}
+
+/* ===== List Styles ===== */
+
+.list-item,
+[class*="list-item"] {
+  padding: 1rem !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+  transition: background 0.2s ease !important;
+}
+
+.list-item:hover {
+  background: #f9fafb !important;
+}
+
+/* ===== Alert/Notification Styles ===== */
+
+.MuiAlert-root,
+.alert {
+  border-radius: 0.5rem !important;
+  padding: 1rem !important;
+  font-weight: 500 !important;
+}
+
+.MuiAlert-standardSuccess,
+.alert-success {
+  background: #d1fae5 !important;
+  color: #065f46 !important;
+  border: 1px solid #a7f3d0 !important;
+}
+
+.MuiAlert-standardError,
+.alert-error {
+  background: #fee2e2 !important;
+  color: #991b1b !important;
+  border: 1px solid #fecaca !important;
+}
+
+.MuiAlert-standardWarning,
+.alert-warning {
+  background: #fef3c7 !important;
+  color: #92400e !important;
+  border: 1px solid #fde68a !important;
+}
+
+.MuiAlert-standardInfo,
+.alert-info {
+  background: #dbeafe !important;
+  color: #1e40af !important;
+  border: 1px solid #bfdbfe !important;
+}
+
+/* ===== Chip Styles ===== */
+
+.MuiChip-root,
+.chip,
+.tag {
+  background: #f3f4f6 !important;
+  color: #374151 !important;
+  border: 1px solid #e5e7eb !important;
+  font-weight: 500 !important;
+  padding: 0.25rem 0.75rem !important;
+  height: auto !important;
+}
+
+.MuiChip-root:hover {
+  background: #e5e7eb !important;
+}
+
+/* ===== Divider Styles ===== */
+
+.MuiDivider-root,
+hr {
+  border-color: #e5e7eb !important;
+  margin: 2rem 0 !important;
+}
+
+/* ===== Link Styles ===== */
+
+a:not(.nav-link):not(.btn):not([class*="button"]) {
+  color: #3b82f6 !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+  transition: color 0.2s ease !important;
+}
+
+a:not(.nav-link):not(.btn):hover {
+  color: #2563eb !important;
+  text-decoration: underline !important;
+}
+
+/* ===== Dropdown/Select Improvements ===== */
+
+.MuiSelect-root,
+select {
+  appearance: none !important;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 0.5rem center !important;
+  background-size: 1.5em 1.5em !important;
+  padding-right: 2.5rem !important;
+}
+
+/* ===== Dark Mode Support ===== */
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #111827 !important;
+    color: #f3f4f6 !important;
+  }
+  
+  .card,
+  .MuiCard-root,
+  .stat-card {
+    background: #1f2937 !important;
+    border-color: #374151 !important;
+  }
+  
+  h1, h2, h3, h4 {
+    color: #f3f4f6 !important;
+  }
+  
+  p {
+    color: #d1d5db !important;
+  }
+  
+  input,
+  textarea,
+  select {
+    background: #1f2937 !important;
+    border-color: #374151 !important;
+    color: #f3f4f6 !important;
+  }
+  
+  .unified-nav {
+    background: rgba(31, 41, 55, 0.95) !important;
+    border-color: #374151 !important;
+  }
+}
+
+/* ===== Animations ===== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Apply animations */
+.card,
+.stat-card,
+[class*="card"] {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* ===== Utility Classes ===== */
+
+.text-center { text-align: center !important; }
+.text-left { text-align: left !important; }
+.text-right { text-align: right !important; }
+
+.font-bold { font-weight: 700 !important; }
+.font-semibold { font-weight: 600 !important; }
+.font-medium { font-weight: 500 !important; }
+
+.text-sm { font-size: 0.875rem !important; }
+.text-lg { font-size: 1.125rem !important; }
+.text-xl { font-size: 1.25rem !important; }
+.text-2xl { font-size: 1.5rem !important; }
+
+.mb-0 { margin-bottom: 0 !important; }
+.mb-1 { margin-bottom: 0.25rem !important; }
+.mb-2 { margin-bottom: 0.5rem !important; }
+.mb-3 { margin-bottom: 0.75rem !important; }
+.mb-4 { margin-bottom: 1rem !important; }
+.mb-6 { margin-bottom: 1.5rem !important; }
+.mb-8 { margin-bottom: 2rem !important; }
+
+.mt-0 { margin-top: 0 !important; }
+.mt-1 { margin-top: 0.25rem !important; }
+.mt-2 { margin-top: 0.5rem !important; }
+.mt-3 { margin-top: 0.75rem !important; }
+.mt-4 { margin-top: 1rem !important; }
+.mt-6 { margin-top: 1.5rem !important; }
+.mt-8 { margin-top: 2rem !important; }
+
+.p-0 { padding: 0 !important; }
+.p-1 { padding: 0.25rem !important; }
+.p-2 { padding: 0.5rem !important; }
+.p-3 { padding: 0.75rem !important; }
+.p-4 { padding: 1rem !important; }
+.p-6 { padding: 1.5rem !important; }
+.p-8 { padding: 2rem !important; }
+
+.rounded { border-radius: 0.5rem !important; }
+.rounded-lg { border-radius: 0.75rem !important; }
+.rounded-xl { border-radius: 1rem !important; }
+.rounded-full { border-radius: 9999px !important; }
+
+.shadow-sm { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important; }
+.shadow { box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important; }
+.shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important; }
+.shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; }
+.shadow-xl { box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important; }

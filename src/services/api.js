@@ -3,9 +3,18 @@
  * 
  * This simulates a backend API for saving designs and uploading files.
  * In a production environment, this would be replaced with actual API calls.
+ * 
+ * Extended for ZUO-Pressly Integration with consumer endpoints
  */
 
 import { validateFile, storeFileLocally } from '../utils/fileStorage';
+import { 
+  getConsumerProducers, 
+  createConsumerOrder, 
+  getConsumerOrders 
+} from './consumerApi';
+import { getCurrentUser } from './auth/auth';
+import { INTERFACE_TYPES } from '../models/userExtensions';
 
 // In-memory storage for uploaded files
 const uploadedFiles = {};
@@ -117,9 +126,91 @@ export const getDesignById = (id) => {
   });
 };
 
+/**
+ * Get producers based on user interface preference
+ * @param {Object} filters - Filter options
+ * @returns {Promise} - Promise with producers list
+ */
+export const getProducersForInterface = async (filters = {}) => {
+  const user = getCurrentUser();
+  const interfaceType = filters.interface_type || user?.interface_preference || INTERFACE_TYPES.ZUO_CONSUMER;
+  
+  if (interfaceType === INTERFACE_TYPES.ZUO_CONSUMER) {
+    // Return simplified consumer producers
+    return getConsumerProducers(filters);
+  }
+  
+  // Return full producer data for professional interface
+  const { getAllProducers } = await import('./producers');
+  return getAllProducers(filters);
+};
+
+/**
+ * Create order based on interface type
+ * @param {Object} orderData - Order data
+ * @returns {Promise} - Promise with created order
+ */
+export const createOrder = async (orderData) => {
+  const user = getCurrentUser();
+  const interfaceSource = orderData.interface_source || 
+    (user?.interface_preference === INTERFACE_TYPES.ZUO_CONSUMER ? 'zuo' : 'pressly');
+  
+  if (interfaceSource === 'zuo') {
+    // Use consumer order flow
+    return createConsumerOrder(orderData);
+  }
+  
+  // Use professional order flow (existing implementation)
+  return createProfessionalOrder(orderData);
+};
+
+/**
+ * Get user orders based on interface
+ * @returns {Promise} - Promise with orders list
+ */
+export const getUserOrders = async () => {
+  const user = getCurrentUser();
+  
+  if (user?.interface_preference === INTERFACE_TYPES.ZUO_CONSUMER) {
+    return getConsumerOrders();
+  }
+  
+  // Return professional orders (existing implementation)
+  return getProfessionalOrders(user.id);
+};
+
+// Mock implementation of professional order functions
+const createProfessionalOrder = async (orderData) => {
+  // Existing order creation logic
+  const order = {
+    id: generateId(),
+    ...orderData,
+    created_at: new Date().toISOString(),
+    status: 'pending'
+  };
+  
+  // Store order
+  const orders = JSON.parse(localStorage.getItem('pressly_orders') || '[]');
+  orders.push(order);
+  localStorage.setItem('pressly_orders', JSON.stringify(orders));
+  
+  return order;
+};
+
+const getProfessionalOrders = async (userId) => {
+  // Get all orders from localStorage
+  const allOrders = JSON.parse(localStorage.getItem('pressly_orders') || '[]');
+  
+  // Filter user's orders
+  return allOrders.filter(order => order.user_id === userId);
+};
+
 export default {
   uploadFile,
   createDesign,
   getDesigns,
-  getDesignById
+  getDesignById,
+  getProducersForInterface,
+  createOrder,
+  getUserOrders
 };
